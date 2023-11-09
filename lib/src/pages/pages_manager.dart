@@ -1,5 +1,6 @@
 import 'package:dima_project_2023/src/pages/friends.dart';
 import 'package:dima_project_2023/src/pages/home.dart';
+import 'package:dima_project_2023/src/pages/leaderboard.dart';
 import 'package:flutter/material.dart';
 
 /// Stateful Widget which manage and switch pages through a Navigation Bar
@@ -21,8 +22,8 @@ class _PagesManagerState extends State<PagesManager> {
         children: <Widget>[
           const HomePage(),
           const FriendsPage(),
-          const Center(child: Text('Leaderboard')),
-          const Center(child: Text('Achievements'))
+          const LeaderboardPage(),
+          const Center(child: Text('Achievements')) // TODO: AchievementsPage
         ],
       ),
       bottomNavigationBar: NavigationBar(

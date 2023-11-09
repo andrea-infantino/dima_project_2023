@@ -1,4 +1,4 @@
-import '../session_manager.dart';
+import '../../session_manager.dart';
 import 'create_account.dart';
 import 'package:dima_project_2023/src/pages/pages_manager.dart';
 import 'package:flutter/material.dart';

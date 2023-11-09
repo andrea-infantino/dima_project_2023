@@ -54,6 +54,16 @@ Future<void> loadDB() async {
       Session.instance.social.notifyListeners();
     }
   });
+
+  for (var uid in await getUsers()) {
+    Stream<DatabaseEvent> stream = usersRef.child("$uid/score").onValue;
+    String email = await getEmailOf(uid);
+    stream.listen((DatabaseEvent event) {
+      dynamic newData = event.snapshot.value;
+      Session.instance.global.value[email] = newData;
+      Session.instance.global.notifyListeners();
+    });
+  }
 }
 
 void initializeDBData() {

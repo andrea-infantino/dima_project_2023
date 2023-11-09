@@ -8,6 +8,7 @@ class Session {
 
   ValueNotifier<Map<String, List<String>>> social =
       ValueNotifier({"friends": [], "requests": []});
+  ValueNotifier<Map<String, int>> global = ValueNotifier({});
   ValueNotifier<String> last_login = ValueNotifier("");
   ValueNotifier<int> score = ValueNotifier(0);
   ValueNotifier<int> sleep = ValueNotifier(0);

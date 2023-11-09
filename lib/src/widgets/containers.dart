@@ -87,3 +87,49 @@ class ActivityTile extends StatelessWidget {
         ));
   }
 }
+
+class LeaderboardTile extends StatelessWidget {
+  final Color backgroundColor, color;
+  final String username;
+  final int position, score;
+
+  const LeaderboardTile(
+      {super.key,
+      required this.backgroundColor,
+      required this.color,
+      required this.position,
+      required this.username,
+      required this.score});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: backgroundColor,
+        child: Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      MyText(
+                        text: '$position°:',
+                        size: 15,
+                        color: color,
+                      ),
+                      Container(width: 15),
+                      MyText(
+                        text: username,
+                        size: 15,
+                      ),
+                    ],
+                  ),
+                  MyText(
+                    text: '$score Beats',
+                    size: 15,
+                  ),
+                ])));
+  }
+}

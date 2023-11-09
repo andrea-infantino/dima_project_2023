@@ -1,4 +1,4 @@
-import 'package:dima_project_2023/src/authentication/login.dart';
+import 'package:dima_project_2023/src/pages/authentication/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

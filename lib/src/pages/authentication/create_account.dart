@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dima_project_2023/src/pages/pages_manager.dart';
-import '../session_manager.dart';
+import '../../session_manager.dart';
 import 'login.dart';
 
 class RegistrationPage extends StatefulWidget {
