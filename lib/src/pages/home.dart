@@ -1,6 +1,8 @@
+import 'package:dima_project_2023/src/authentication/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../assets/colors.dart';
 import '../db_manager.dart';
 import '../session_manager.dart';
 import '../widgets/containers.dart';
@@ -15,7 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _score = 0;
   String _username = '';
   int _steps = 0, _sleep = 0, _water = 0;
   int _score_steps = 0, _score_sleep = 0, _score_water = 0;
@@ -23,16 +24,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadScore();
     _loadUsername();
     _loadHealthData().then((value) => _calculateScores());
-  }
-
-  Future<void> _loadScore() async {
-    int score = await getMyScore();
-    setState(() {
-      _score = score;
-    });
   }
 
   Future<void> _loadUsername() async {
@@ -88,12 +81,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> incrementScore(int points) async {
-    _score = _score + points;
-    updateMyScore(_score);
+    Session.instance.score.value += points;
+    updateMyScore(Session.instance.score.value);
   }
 
   Future<void> _calculateScores() async {
-    setState(() {
+    /*setState(() {
       _score_steps = ((_steps / 1000) - 0.5).round();
     });
     setState(() {
@@ -119,7 +112,7 @@ class _HomePageState extends State<HomePage> {
     }
     if (score_water > 0) {
       updateMyWater(score_water);
-    }
+    }*/
   }
 
   @override
@@ -134,14 +127,19 @@ class _HomePageState extends State<HomePage> {
             TextButton(
                 onPressed: (() {
                   FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pushReplacementNamed('/start');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                  );
                 }),
                 child: const MyText(
-                  text: 'Log-out',
-                  size: 15,
-                )),
+                    text: 'Log-out', size: 15, color: WATER_GREEN)),
             const SizedBox(height: 20),
-            ScoreContainer(score: _score),
+            ValueListenableBuilder<int>(
+                valueListenable: Session.instance.score,
+                builder: (context, value, child) {
+                  return ScoreContainer(score: Session.instance.score.value);
+                }),
             Container(height: 20),
             const Divider(),
             const MyText(text: 'Activities:', size: 30, bold: true),

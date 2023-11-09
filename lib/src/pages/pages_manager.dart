@@ -1,3 +1,4 @@
+import 'package:dima_project_2023/src/pages/friends.dart';
 import 'package:dima_project_2023/src/pages/home.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _PagesManagerState extends State<PagesManager> {
         index: index,
         children: <Widget>[
           const HomePage(),
-          const Center(child: Text('Friends')),
+          const FriendsPage(),
           const Center(child: Text('Leaderboard')),
           const Center(child: Text('Achievements'))
         ],

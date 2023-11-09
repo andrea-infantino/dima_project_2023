@@ -30,13 +30,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
     try {
       await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      Session.instance.setUser(FirebaseAuth.instance.currentUser!.email!,
-          FirebaseAuth.instance.currentUser!.uid);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const PagesManager()),
-      );
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) =>
+              Session.instance.setUser(value.user!.email!, value.user!.uid))
+          .then((value) => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PagesManager()),
+              ));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         passwordTooShort();

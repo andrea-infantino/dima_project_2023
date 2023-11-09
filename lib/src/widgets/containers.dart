@@ -24,7 +24,7 @@ class ScoreContainer extends StatelessWidget {
           const MyText(
             text: 'Beats',
             size: 20,
-            color: GREEN,
+            color: WATER_GREEN,
           )
         ],
       ),
@@ -61,7 +61,7 @@ class ActivityTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(icon, size: 30, color: GREEN),
+                Icon(icon, size: 30, color: WATER_GREEN),
                 Container(width: 20),
                 MyText(
                   text: activityName,
@@ -79,7 +79,7 @@ class ActivityTile extends StatelessWidget {
                 MyText(
                   text: '+ $score Beats',
                   size: 15,
-                  color: GREEN,
+                  color: WATER_GREEN,
                 )
               ],
             )
