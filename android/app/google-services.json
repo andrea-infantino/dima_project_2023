@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "445585836964",
+    "firebase_url": "https://dima-project-2023-default-rtdb.firebaseio.com",
+    "project_id": "dima-project-2023",
+    "storage_bucket": "dima-project-2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445585836964:android:8353a6b0cf127f43074f31",
+        "android_client_info": {
+          "package_name": "com.example.dima_project_2023"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWhIVmBOosmLuiByT4Lafk4R4oUbSTHkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

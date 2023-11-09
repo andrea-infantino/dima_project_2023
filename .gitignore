@@ -1,0 +1,64 @@
+# Flutter/Dart specific
+**/build/
+**/ios/Runner/GeneratedPluginRegistrant.h
+**/ios/Runner/GeneratedPluginRegistrant.m
+**.idea/
+**.vscode/
+**.pub-cache/
+**.dart_tool/
+**/macos/GeneratedPluginRegistrant.h
+**/macos/GeneratedPluginRegistrant.m
+**/android/key.properties
+**/web/favicon.png
+**/web/assets/
+
+# Android specific
+**/android/app/build/
+**/android/gradle.properties
+**/android/local.properties
+**/android/app/key.properties
+**/android/gradle-wrapper.properties
+
+# iOS specific
+**/ios/Pods/
+**/ios/Podfile.lock
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/AppFrameworkInfo.plist
+**/ios/Flutter/Debug.xcconfig
+**/ios/Flutter/Release.xcconfig
+
+# macOS specific
+**/macos/Flutter/FlutterMacOS.framework/
+**/macos/Flutter/Generated.xcconfig
+**/macos/Flutter/Debug.xcconfig
+**/macos/Flutter/Release.xcconfig
+**/macos/Flutter/flutter_assets/
+**/macos/Flutter/flutter_export_environment.sh
+**/macos/Pods/
+
+# Web specific
+**/web/packages/
+**/web/pubspec.yaml
+**/web/flutter_service_worker.js
+**/web/index.html
+**/web/main.dart.js
+**/web/main.dart.js.map
+**/web/flutter_service_worker.js.map
+**/web/favicon.ico
+
+# Visual Studio Code specific
+.vscode/
+
+# Android Studio specific
+.idea/
+*.iml
+
+# macOS .DS_Store files
+**/.DS_Store
+
+# Flutter user-specific files
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub/
