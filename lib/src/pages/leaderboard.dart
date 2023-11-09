@@ -15,57 +15,27 @@ class LeaderboardPage extends StatefulWidget {
 class _LeaderboardPageState extends State<LeaderboardPage> {
   Map<String, int> _local = {};
 
-  void _reloadLeaderboard() {
-    for (var currEmail in DBsnapshot.instance.global.value.keys) {
-      List<String> friends = DBsnapshot.instance.social.value["friends"]!;
-      if (friends.contains(currEmail) ||
-          currEmail.toLowerCase() == Session.instance.email) {
-        _local[currEmail.toLowerCase()] =
-            DBsnapshot.instance.global.value[currEmail]!;
-      }
-    }
-
-    DBsnapshot.instance.global.value = Map.fromEntries(
-        DBsnapshot.instance.global.value.entries.toList()
-          ..sort((e1, e2) => e2.value.compareTo(e1.value)));
-
-    _local = Map.fromEntries(_local.entries.toList()
-      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 2,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Container(height: (Session.instance.deviceHeight) * (1 / 15)),
-          const Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-            child: MyText(
-              text: 'Leaderboard:',
-              size: 50,
-              color: WATER_GREEN,
-              italic: true,
-              bold: true,
-            ),
-          ),
+          Padding(
+              padding:
+                  EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              child: Text('Leaderboard:',
+                  style: MyTextStyle.get(
+                    size: 50,
+                    color: WATER_GREEN,
+                    bold: true,
+                    italic: true,
+                  ))),
           const Divider(),
-          const TabBar(
-              labelStyle: TextStyle(
-                fontSize: 30,
-                fontFamily: 'Exo2',
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                shadows: <Shadow>[
-                  Shadow(
-                    color: GREY,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
+          TabBar(
+              labelStyle: MyTextStyle.get(size: 30, bold: true, italic: true),
               labelColor: BLACK,
-              tabs: [
+              tabs: const [
                 Tab(
                   text: 'Global',
                 ),
@@ -75,7 +45,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
             child: ValueListenableBuilder<Map<String, int>>(
                 valueListenable: DBsnapshot.instance.global,
                 builder: (context, value, child) {
-                  _reloadLeaderboard();
+                  _loadLeaderboard();
                   return TabBarView(children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -103,6 +73,24 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
         ]));
   }
 
+  void _loadLeaderboard() {
+    for (var currEmail in DBsnapshot.instance.global.value.keys) {
+      List<String> friends = DBsnapshot.instance.social.value["friends"]!;
+      if (friends.contains(currEmail) ||
+          currEmail.toLowerCase() == Session.instance.email) {
+        _local[currEmail.toLowerCase()] =
+            DBsnapshot.instance.global.value[currEmail]!;
+      }
+    }
+
+    DBsnapshot.instance.global.value = Map.fromEntries(
+        DBsnapshot.instance.global.value.entries.toList()
+          ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+
+    _local = Map.fromEntries(_local.entries.toList()
+      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+  }
+
   Widget _buildGlobalListTile(BuildContext context, index) {
     return _buildListTile(context, index, true);
   }
@@ -127,34 +115,34 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     switch (position) {
       case 1:
         {
-          color = const Color.fromARGB(255, 212, 175, 55);
+          color = GOLD;
           break;
         }
       case 2:
         {
-          color = const Color.fromARGB(255, 170, 169, 173);
+          color = SILVER;
           break;
         }
       case 3:
         {
-          color = const Color.fromARGB(255, 179, 116, 66);
+          color = BRONZE;
           break;
         }
       default:
         {
-          color = Colors.black;
+          color = BLACK;
           break;
         }
     }
 
     late Color backgroundColor;
     if (username == Session.instance.email) {
-      backgroundColor = const Color.fromARGB(100, 255, 255, 0);
+      backgroundColor = LIGHT_YELLOW;
     } else {
       if (index % 2 == 0) {
-        backgroundColor = const Color.fromARGB(80, 49, 196, 141);
+        backgroundColor = LIGHT_WATER_GREEN;
       } else {
-        backgroundColor = const Color.fromARGB(160, 49, 196, 141);
+        backgroundColor = WATER_GREEN;
       }
     }
 

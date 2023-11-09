@@ -1,5 +1,6 @@
+import 'package:dima_project_2023/src/logic/friends.dart';
+
 import '../../assets/colors.dart';
-import '../db_manager.dart';
 import '../db_snapshot.dart';
 import '../session_manager.dart';
 import 'package:flutter/material.dart';
@@ -16,192 +17,6 @@ class _FriendsPageState extends State<FriendsPage> {
   final TextEditingController _textFieldController = TextEditingController();
   String _valueText = '';
   Color _color = RED;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> addFriend(String email) async {
-    DBsnapshot.instance.social.value["friends"]!.add(email);
-    setFriendsOf(
-        Session.instance.uid, DBsnapshot.instance.social.value["friends"]!);
-    deleteRequest(email);
-
-    String myEmail = Session.instance.email;
-    List<String> users = List.from(await getUsers());
-    for (var uid in users) {
-      String currEmail = await getEmailOf(uid);
-      if (currEmail.toLowerCase() == email.toLowerCase()) {
-        List<String> currFriends = await getFriendsOf(uid);
-        currFriends.add(myEmail);
-        setFriendsOf(uid, currFriends);
-        return;
-      }
-    }
-  }
-
-  Future<String> sendRequest(String email) async {
-    String myEmail = Session.instance.email;
-    List<String> users = List.from(await getUsers());
-    for (var uid in users) {
-      String currEmail = await getEmailOf(uid);
-      if (currEmail.toLowerCase() == email.toLowerCase()) {
-        List<String> requests = List.from(await getRequestsOf(uid));
-        if (requests.contains(myEmail.toLowerCase()) ||
-            DBsnapshot.instance.social.value["friends"]!
-                .contains(email.toLowerCase()) ||
-            email == myEmail ||
-            DBsnapshot.instance.social.value["requests"]!
-                .contains(email.toLowerCase())) {
-          return 'NO';
-        } else {
-          requests.add(myEmail);
-          setRequestsOf(uid, requests);
-          return 'OK';
-        }
-      }
-    }
-    return 'NE';
-  }
-
-  Future<void> deleteRequest(String email) async {
-    DBsnapshot.instance.social.value["requests"]!.remove(email);
-    String uid = Session.instance.uid;
-    setRequestsOf(uid, DBsnapshot.instance.social.value["requests"]!);
-  }
-
-  Widget _buildFriendListTile(BuildContext context, index) {
-    var friend = DBsnapshot.instance.social.value["friends"]![index];
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 7, bottom: 8),
-      child: MyText(
-        text: friend,
-        size: 20,
-      ),
-    );
-  }
-
-  Widget _buildRequestListTile(BuildContext context, index) {
-    var request = DBsnapshot.instance.social.value["requests"]![index];
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        MyText(
-          text: request,
-          size: 20,
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          IconButton(
-            onPressed: (() {
-              addFriend(request);
-            }),
-            icon: const Icon(Icons.done),
-            color: GREEN,
-            iconSize: 20,
-          ),
-          IconButton(
-            onPressed: (() {
-              deleteRequest(request);
-            }),
-            icon: const Icon(Icons.close),
-            color: RED,
-            iconSize: 20,
-          ),
-        ])
-      ]),
-    );
-  }
-
-  void _displayTextInputDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          String result = '';
-          return StatefulBuilder(builder: (context, setState) {
-            return AlertDialog(
-              title: const MyText(text: 'Add a Friend:', size: 25),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        result = '';
-                        _valueText = value;
-                      });
-                    },
-                    controller: _textFieldController,
-                    decoration: const InputDecoration(hintText: "e-mail"),
-                  ),
-                  MyText(text: result, size: 15, color: _color, bold: true),
-                ],
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const MyText(
-                    text: 'CANCEL',
-                    size: 20,
-                    color: RED,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pop(context);
-                    });
-                  },
-                ),
-                TextButton(
-                  child: const MyText(
-                    text: 'OK',
-                    size: 20,
-                    color: GREEN,
-                  ),
-                  onPressed: () async {
-                    String returned = await sendRequest(_valueText);
-                    switch (returned) {
-                      case 'OK':
-                        {
-                          setState(() {
-                            result = "Friend request sent!";
-                            _color = GREEN;
-                          });
-                          break;
-                        }
-                      case 'NO':
-                        {
-                          setState(() {
-                            result = "User already added";
-                            _color = RED;
-                          });
-                          break;
-                        }
-                      case 'NE':
-                        {
-                          setState(() {
-                            result = "User not found";
-                            _color = RED;
-                          });
-                          break;
-                        }
-                      default:
-                        {
-                          setState(() {
-                            result = "";
-                            _color = RED;
-                          });
-                          break;
-                        }
-                    }
-                  },
-                ),
-              ],
-            );
-          });
-        });
-  }
 
   @override
   Widget build(context) {
@@ -242,12 +57,9 @@ class _FriendsPageState extends State<FriendsPage> {
               ratioF = value["friends"]!.length;
             }
             content = Column(children: [
-              const MyText(
-                text: 'Requests:',
-                size: 20,
-                bold: true,
-                color: WATER_GREEN,
-              ),
+              Text('Requests:',
+                  style: MyTextStyle.get(
+                      size: 20, bold: true, color: WATER_GREEN)),
               const Divider(),
               Expanded(
                   flex: ratioR,
@@ -256,12 +68,9 @@ class _FriendsPageState extends State<FriendsPage> {
                     itemBuilder: _buildRequestListTile,
                   )),
               const Divider(),
-              MyText(
-                text: 'Friends:  [$friendsNumber]',
-                size: 20,
-                bold: true,
-                color: WATER_GREEN,
-              ),
+              Text('Friends: [$friendsNumber]',
+                  style: MyTextStyle.get(
+                      size: 20, bold: true, color: WATER_GREEN)),
               const Divider(),
               Expanded(
                   flex: ratioF,
@@ -282,16 +91,16 @@ class _FriendsPageState extends State<FriendsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const MyText(
-                      text: 'Social:',
-                      size: 50,
-                      color: WATER_GREEN,
-                      italic: true,
-                      bold: true,
-                    ),
+                    Text('Social:',
+                        style: MyTextStyle.get(
+                          size: 50,
+                          color: WATER_GREEN,
+                          bold: true,
+                          italic: true,
+                        )),
                     TextButton(
                       onPressed: () {
-                        _displayTextInputDialog(context);
+                        _displayAddFriendsDialog(context);
                       },
                       child: Container(
                         width: 50,
@@ -324,6 +133,128 @@ class _FriendsPageState extends State<FriendsPage> {
               Expanded(child: content)
             ],
           );
+        });
+  }
+
+  Widget _buildFriendListTile(BuildContext context, index) {
+    var friend = DBsnapshot.instance.social.value["friends"]![index];
+
+    return Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 7, bottom: 8),
+        child: Text(friend, style: MyTextStyle.get(size: 20)));
+  }
+
+  Widget _buildRequestListTile(BuildContext context, index) {
+    var request = DBsnapshot.instance.social.value["requests"]![index];
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(request, style: MyTextStyle.get(size: 20)),
+        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          IconButton(
+            onPressed: (() {
+              FriendsLogic.addFriend(request);
+            }),
+            icon: const Icon(Icons.done),
+            color: GREEN,
+            iconSize: 20,
+          ),
+          IconButton(
+            onPressed: (() {
+              FriendsLogic.deleteRequest(request);
+            }),
+            icon: const Icon(Icons.close),
+            color: RED,
+            iconSize: 20,
+          ),
+        ])
+      ]),
+    );
+  }
+
+  void _displayAddFriendsDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          String result = '';
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Add a Friend:', style: MyTextStyle.get(size: 25)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        result = '';
+                        _valueText = value;
+                      });
+                    },
+                    controller: _textFieldController,
+                    decoration: const InputDecoration(hintText: "e-mail"),
+                  ),
+                  Text(result,
+                      style:
+                          MyTextStyle.get(size: 15, color: _color, bold: true)),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('CANCEL',
+                      style: MyTextStyle.get(size: 20, color: RED)),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                ),
+                TextButton(
+                  child: Text('OK',
+                      style: MyTextStyle.get(size: 20, color: GREEN)),
+                  onPressed: () async {
+                    String returned =
+                        await FriendsLogic.sendRequest(_valueText);
+                    switch (returned) {
+                      case 'OK':
+                        {
+                          setState(() {
+                            result = "Friend request sent!";
+                            _color = GREEN;
+                          });
+                          break;
+                        }
+                      case 'NO':
+                        {
+                          setState(() {
+                            result = "User already added";
+                            _color = RED;
+                          });
+                          break;
+                        }
+                      case 'NE':
+                        {
+                          setState(() {
+                            result = "User not found";
+                            _color = RED;
+                          });
+                          break;
+                        }
+                      default:
+                        {
+                          setState(() {
+                            result = "";
+                            _color = RED;
+                          });
+                          break;
+                        }
+                    }
+                  },
+                ),
+              ],
+            );
+          });
         });
   }
 }

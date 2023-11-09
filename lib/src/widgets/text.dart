@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../assets/colors.dart';
+
 const String fontName = '';
 
-class MyText extends StatelessWidget {
-  final String text;
-  final double size;
-  final bool bold, italic, shadowed;
-  final Color color;
-
-  const MyText(
-      {super.key,
-      required this.text,
-      required this.size,
-      this.bold = false,
-      this.italic = false,
-      this.shadowed = true,
-      this.color = Colors.black});
-
-  @override
-  Widget build(BuildContext context) {
+class MyTextStyle {
+  static TextStyle get(
+      {required double size,
+      Color color = BLACK,
+      bool bold = false,
+      bool italic = false,
+      bool shadowed = true}) {
     FontWeight fw = FontWeight.normal;
     if (bold == true) {
       fw = FontWeight.bold;
@@ -29,30 +21,28 @@ class MyText extends StatelessWidget {
     }
 
     if (shadowed == true) {
-      return Text(text,
-          style: TextStyle(
-            fontSize: size,
-            color: color,
-            fontFamily: fontName,
-            fontStyle: fs,
-            fontWeight: fw,
-            shadows: const <Shadow>[
-              Shadow(
-                color: Color.fromARGB(175, 158, 158, 158),
-                blurRadius: 7,
-                offset: Offset(0, 3),
-              ),
-            ],
-          ));
+      return TextStyle(
+        fontSize: size,
+        color: color,
+        fontFamily: fontName,
+        fontStyle: fs,
+        fontWeight: fw,
+        shadows: const <Shadow>[
+          Shadow(
+            color: GREY,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+      );
     } else {
-      return Text(text,
-          style: TextStyle(
-            fontSize: size,
-            color: color,
-            fontFamily: fontName,
-            fontStyle: fs,
-            fontWeight: fw,
-          ));
+      return TextStyle(
+        fontSize: size,
+        color: color,
+        fontFamily: fontName,
+        fontStyle: fs,
+        fontWeight: fw,
+      );
     }
   }
 }

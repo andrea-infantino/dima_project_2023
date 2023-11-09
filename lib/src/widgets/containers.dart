@@ -1,6 +1,5 @@
 import 'package:dima_project_2023/assets/colors.dart';
 import 'package:flutter/material.dart';
-
 import 'text.dart';
 
 class ScoreContainer extends StatelessWidget {
@@ -19,13 +18,14 @@ class ScoreContainer extends StatelessWidget {
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          MyText(text: '$score', size: 45, color: ORANGE, bold: true),
+          Text('$score',
+              style: MyTextStyle.get(size: 45, color: ORANGE, bold: true)),
           //const SizedBox(height: 20),
-          const MyText(
-            text: 'Beats',
-            size: 20,
-            color: WATER_GREEN,
-          )
+          Text('Beats',
+              style: MyTextStyle.get(
+                size: 20,
+                color: WATER_GREEN,
+              ))
         ],
       ),
       Image.asset(
@@ -63,24 +63,15 @@ class ActivityTile extends StatelessWidget {
               children: [
                 Icon(icon, size: 30, color: WATER_GREEN),
                 Container(width: 20),
-                MyText(
-                  text: activityName,
-                  size: 25,
-                )
+                Text(activityName, style: MyTextStyle.get(size: 25))
               ],
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MyText(
-                  text: '$activityValue $udm',
-                  size: 25,
-                ),
-                MyText(
-                  text: '+ $score Beats',
-                  size: 15,
-                  color: WATER_GREEN,
-                )
+                Text('$activityValue $udm', style: MyTextStyle.get(size: 25)),
+                Text('+$score Beats',
+                    style: MyTextStyle.get(size: 15, color: WATER_GREEN))
               ],
             )
           ],
@@ -114,22 +105,13 @@ class LeaderboardTile extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      MyText(
-                        text: '$position°:',
-                        size: 15,
-                        color: color,
-                      ),
+                      Text('$position°:',
+                          style: MyTextStyle.get(size: 15, color: color)),
                       Container(width: 15),
-                      MyText(
-                        text: username,
-                        size: 15,
-                      ),
+                      Text(username, style: MyTextStyle.get(size: 15))
                     ],
                   ),
-                  MyText(
-                    text: '$score Beats',
-                    size: 15,
-                  ),
+                  Text('$score Beats', style: MyTextStyle.get(size: 15))
                 ])));
   }
 }

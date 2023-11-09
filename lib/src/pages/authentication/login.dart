@@ -1,8 +1,6 @@
-import '../../session_manager.dart';
+import 'package:dima_project_2023/src/logic/authentication/login.dart';
 import 'create_account.dart';
-import 'package:dima_project_2023/src/pages/pages_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,44 +12,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  Future<void> _login() async {
-    String email = _emailController.text;
-    String password = _passwordController.text;
-
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) =>
-              Session.instance.setUser(value.user!.email!, value.user!.uid))
-          .then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PagesManager()),
-              ));
-    } on FirebaseAuthException catch (e) {
-      invalidCredentials();
-    }
-  }
-
-  void invalidCredentials() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Login Failed'),
-          content: const Text('Invalid email or password.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _login,
+                onPressed: (() => LoginLogic.login(
+                    context, _emailController.text, _passwordController.text)),
                 child: const Text('Login'),
               ),
               const SizedBox(height: 20),
