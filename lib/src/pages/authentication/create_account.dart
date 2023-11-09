@@ -18,7 +18,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
       TextEditingController();
 
   Future<void> _register() async {
-    // Here, you can implement the registration logic to create a new user account.
     String email = _emailController.text;
     String password = _passwordController.text;
     String passwordChecker = _passwordCheckerController.text;
@@ -110,6 +109,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Registration Page'),
       ),
       body: Center(

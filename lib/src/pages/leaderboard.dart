@@ -1,8 +1,7 @@
 import 'package:dima_project_2023/src/session_manager.dart';
 import 'package:flutter/material.dart';
-
 import '../../assets/colors.dart';
-import '../db_manager.dart';
+import '../db_snapshot.dart';
 import '../widgets/containers.dart';
 import '../widgets/text.dart';
 
@@ -17,17 +16,17 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
   Map<String, int> _local = {};
 
   void _reloadLeaderboard() {
-    for (var currEmail in Session.instance.global.value.keys) {
-      List<String> friends = Session.instance.social.value["friends"]!;
+    for (var currEmail in DBsnapshot.instance.global.value.keys) {
+      List<String> friends = DBsnapshot.instance.social.value["friends"]!;
       if (friends.contains(currEmail) ||
           currEmail.toLowerCase() == Session.instance.email) {
         _local[currEmail.toLowerCase()] =
-            Session.instance.global.value[currEmail]!;
+            DBsnapshot.instance.global.value[currEmail]!;
       }
     }
 
-    Session.instance.global.value = Map.fromEntries(
-        Session.instance.global.value.entries.toList()
+    DBsnapshot.instance.global.value = Map.fromEntries(
+        DBsnapshot.instance.global.value.entries.toList()
           ..sort((e1, e2) => e2.value.compareTo(e1.value)));
 
     _local = Map.fromEntries(_local.entries.toList()
@@ -45,7 +44,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
             child: MyText(
               text: 'Leaderboard:',
               size: 50,
-              color: GREEN,
+              color: WATER_GREEN,
               italic: true,
               bold: true,
             ),
@@ -74,7 +73,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
               ]),
           Expanded(
             child: ValueListenableBuilder<Map<String, int>>(
-                valueListenable: Session.instance.global,
+                valueListenable: DBsnapshot.instance.global,
                 builder: (context, value, child) {
                   _reloadLeaderboard();
                   return TabBarView(children: [
@@ -117,8 +116,8 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     late int score;
     int position = index + 1;
     if (isGlobal) {
-      username = Session.instance.global.value.keys.elementAt(index);
-      score = Session.instance.global.value.values.elementAt(index);
+      username = DBsnapshot.instance.global.value.keys.elementAt(index);
+      score = DBsnapshot.instance.global.value.values.elementAt(index);
     } else {
       username = _local.keys.elementAt(index);
       score = _local.values.elementAt(index);

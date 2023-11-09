@@ -1,5 +1,6 @@
 import '../../assets/colors.dart';
 import '../db_manager.dart';
+import '../db_snapshot.dart';
 import '../session_manager.dart';
 import 'package:flutter/material.dart';
 import '../widgets/text.dart';
@@ -22,9 +23,9 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Future<void> addFriend(String email) async {
-    Session.instance.social.value["friends"]!.add(email);
+    DBsnapshot.instance.social.value["friends"]!.add(email);
     setFriendsOf(
-        Session.instance.uid, Session.instance.social.value["friends"]!);
+        Session.instance.uid, DBsnapshot.instance.social.value["friends"]!);
     deleteRequest(email);
 
     String myEmail = Session.instance.email;
@@ -48,10 +49,10 @@ class _FriendsPageState extends State<FriendsPage> {
       if (currEmail.toLowerCase() == email.toLowerCase()) {
         List<String> requests = List.from(await getRequestsOf(uid));
         if (requests.contains(myEmail.toLowerCase()) ||
-            Session.instance.social.value["friends"]!
+            DBsnapshot.instance.social.value["friends"]!
                 .contains(email.toLowerCase()) ||
             email == myEmail ||
-            Session.instance.social.value["requests"]!
+            DBsnapshot.instance.social.value["requests"]!
                 .contains(email.toLowerCase())) {
           return 'NO';
         } else {
@@ -65,13 +66,13 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Future<void> deleteRequest(String email) async {
-    Session.instance.social.value["requests"]!.remove(email);
+    DBsnapshot.instance.social.value["requests"]!.remove(email);
     String uid = Session.instance.uid;
-    setRequestsOf(uid, Session.instance.social.value["requests"]!);
+    setRequestsOf(uid, DBsnapshot.instance.social.value["requests"]!);
   }
 
   Widget _buildFriendListTile(BuildContext context, index) {
-    var friend = Session.instance.social.value["friends"]![index];
+    var friend = DBsnapshot.instance.social.value["friends"]![index];
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 7, bottom: 8),
@@ -83,7 +84,7 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Widget _buildRequestListTile(BuildContext context, index) {
-    var request = Session.instance.social.value["requests"]![index];
+    var request = DBsnapshot.instance.social.value["requests"]![index];
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -205,7 +206,7 @@ class _FriendsPageState extends State<FriendsPage> {
   @override
   Widget build(context) {
     return ValueListenableBuilder<Map<String, List<String>>>(
-        valueListenable: Session.instance.social,
+        valueListenable: DBsnapshot.instance.social,
         builder: (context, value, child) {
           Widget content;
           int friendsNumber = value["friends"]!.length;

@@ -1,14 +1,13 @@
+import 'package:dima_project_2023/src/db_snapshot.dart';
 import 'package:dima_project_2023/src/pages/authentication/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../../assets/colors.dart';
 import '../db_manager.dart';
 import '../session_manager.dart';
 import '../widgets/containers.dart';
 import '../widgets/text.dart';
 
-/// Stateful Widget of main Home Page with linking to Health package
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -81,8 +80,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> incrementScore(int points) async {
-    Session.instance.score.value += points;
-    updateMyScore(Session.instance.score.value);
+    DBsnapshot.instance.score.value += points;
+    updateMyScore(DBsnapshot.instance.score.value);
   }
 
   Future<void> _calculateScores() async {
@@ -136,9 +135,9 @@ class _HomePageState extends State<HomePage> {
                     text: 'Log-out', size: 15, color: WATER_GREEN)),
             const SizedBox(height: 20),
             ValueListenableBuilder<int>(
-                valueListenable: Session.instance.score,
+                valueListenable: DBsnapshot.instance.score,
                 builder: (context, value, child) {
-                  return ScoreContainer(score: Session.instance.score.value);
+                  return ScoreContainer(score: DBsnapshot.instance.score.value);
                 }),
             Container(height: 20),
             const Divider(),
