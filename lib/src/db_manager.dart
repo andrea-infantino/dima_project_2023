@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'db_snapshot.dart';
+import 'logic/achievements.dart';
 import 'session_manager.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -14,13 +15,18 @@ Future<void> initDB() async {
     int day = DateTime.now().day;
     int month = DateTime.now().month;
     int year = DateTime.now().year;
+    List<int> achievements = [];
+    for (int i = 0; i < Achievements.N; i++) {
+      achievements.add(0);
+    }
     final data = {
       "email": Session.instance.email,
       "score": 0,
       "last_login": "$day/$month/$year",
       "sleep": 0,
       "steps": 0,
-      "water": 0
+      "water": 0,
+      "achievements": achievements
     };
     usersRef.child(Session.instance.uid).set(data);
   } else {
@@ -36,6 +42,15 @@ Future<void> initDB() async {
       updateMySteps(0);
       updateMyWater(0);
     }
+
+    List<int> achievements =
+        (await usersRef.child("$uid/achievements").get()).value as List<int>;
+    if (achievements.length < Achievements.N) {
+      for (int i = achievements.length; i < Achievements.N; i++) {
+        achievements.add(0);
+      }
+      usersRef.child("$uid/achievements").set(achievements);
+    }
   }
 
   DBsnapshot.init();
@@ -50,6 +65,7 @@ Future<String> getEmailOf(String uid) async {
 void updateMyScore(score) {
   String uid = Session.instance.uid;
   usersRef.child('$uid/score').set(score);
+  usersRef.child('$uid/achievements/0').set(score);
 }
 
 Future<int> getScoreOf(String uid) async {
@@ -74,6 +90,9 @@ Future<List<String>> getFriendsOf(String uid) async {
 
 void setFriendsOf(String uid, List<String> friends) async {
   usersRef.child("$uid/friends").set(friends);
+  usersRef.child("$uid/achievements/1").set(friends.length);
+  usersRef.child("$uid/achievements/2").set(friends.length);
+  usersRef.child("$uid/achievements/3").set(friends.length);
 }
 
 Future<List<String>> getRequestsOf(String uid) async {
@@ -94,6 +113,21 @@ Future<List<String>> getRequestsOf(String uid) async {
 
 void setRequestsOf(String uid, List<String> requests) async {
   usersRef.child("$uid/requests").set(requests);
+}
+
+Future<List<int>> getAchievements(String uid) async {
+  DataSnapshot snapshot = await usersRef.child("$uid/achievements").get();
+  List<int> achievements = [];
+  List<dynamic>? values = snapshot.value as List<dynamic>?;
+
+  if (values == null) {
+    return achievements;
+  }
+
+  for (var value in values) {
+    achievements.add(value);
+  }
+  return achievements;
 }
 
 Future<List<String>> getUsers() async {

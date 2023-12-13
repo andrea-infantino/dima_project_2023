@@ -8,6 +8,7 @@ class DBsnapshot {
 
   ValueNotifier<Map<String, List<String>>> social =
       ValueNotifier({"friends": [], "requests": []});
+  ValueNotifier<List<int>> achievements = ValueNotifier([]);
   ValueNotifier<String> last_login = ValueNotifier("");
   ValueNotifier<int> score = ValueNotifier(0);
   ValueNotifier<int> sleep = ValueNotifier(0);
@@ -28,7 +29,9 @@ class DBsnapshot {
     Stream<DatabaseEvent> myStream = myRef.onValue;
     myStream.listen((DatabaseEvent event) {
       dynamic newData = event.snapshot.value;
-      bool friendsFound = false, requestsFound = false;
+      bool friendsFound = false,
+          requestsFound = false,
+          achievementsFound = false;
       for (var key in newData?.keys) {
         if (key == "score") {
           score.value = newData[key];
@@ -40,6 +43,10 @@ class DBsnapshot {
           requestsFound = true;
           social.value["requests"] = List.from(newData[key]);
           social.notifyListeners();
+        } else if (key == "achievements") {
+          achievementsFound = true;
+          achievements.value = List.from(newData[key]);
+          achievements.notifyListeners();
         }
       }
 
@@ -50,6 +57,10 @@ class DBsnapshot {
       if (!requestsFound) {
         social.value["requests"] = [];
         social.notifyListeners();
+      }
+      if (!achievementsFound) {
+        achievements.value = [];
+        achievements.notifyListeners();
       }
     });
 

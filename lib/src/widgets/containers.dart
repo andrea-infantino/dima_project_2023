@@ -115,3 +115,31 @@ class LeaderboardTile extends StatelessWidget {
                 ])));
   }
 }
+
+class AchievementTile extends StatelessWidget {
+  final Color backgroundColor;
+  final String description;
+  final int currValue, maxValue;
+
+  const AchievementTile(
+      {super.key,
+      required this.backgroundColor,
+      required this.description,
+      required this.currValue,
+      required this.maxValue});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: backgroundColor,
+        child: Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(description, style: MyTextStyle.get(size: 15)),
+                  Text('$currValue/$maxValue', style: MyTextStyle.get(size: 15))
+                ])));
+  }
+}

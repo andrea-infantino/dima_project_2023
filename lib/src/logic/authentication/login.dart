@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../pages/pages_manager.dart';
 import '../../session_manager.dart';
+import '../achievements.dart';
 
 class LoginLogic {
   static Future<void> login(
@@ -12,6 +13,7 @@ class LoginLogic {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) =>
               Session.instance.setUser(value.user!.email!, value.user!.uid))
+          .then((value) => Achievements.init())
           .then((value) => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const PagesManager()),

@@ -1,3 +1,4 @@
+import 'package:dima_project_2023/src/pages/achievements.dart';
 import 'package:dima_project_2023/src/pages/friends.dart';
 import 'package:dima_project_2023/src/pages/home.dart';
 import 'package:dima_project_2023/src/pages/leaderboard.dart';
@@ -23,7 +24,7 @@ class _PagesManagerState extends State<PagesManager> {
           const HomePage(),
           const FriendsPage(),
           const LeaderboardPage(),
-          const Center(child: Text('Achievements')) // TODO: AchievementsPage
+          const AchievementsPage() // TODO: AchievementsPage
         ],
       ),
       bottomNavigationBar: NavigationBar(
