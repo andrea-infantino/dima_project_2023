@@ -7,11 +7,14 @@ class Session {
 
   static void init(double deviceHeight, double deviceWidth) {
     _session = Session._internal(deviceHeight, deviceWidth);
+    _session._email = '';
+    _session._uid = '';
+
   }
 
   Future<void> setUser(String email, String uid) async {
-    _email = email;
-    _uid = uid;
+    _session._email = email;
+    _session._uid = uid;
     await initDB();
   }
 

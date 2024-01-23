@@ -8,6 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
+    name: 'Healthy Challenge',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 

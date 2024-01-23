@@ -43,8 +43,8 @@ Future<void> initDB() async {
       updateMyWater(0);
     }
 
-    List<int> achievements =
-        (await usersRef.child("$uid/achievements").get()).value as List<int>;
+    List<Object?> achievements =
+        (await usersRef.child("$uid/achievements").get()).value as List<Object?>;
     if (achievements.length < Achievements.N) {
       for (int i = achievements.length; i < Achievements.N; i++) {
         achievements.add(0);

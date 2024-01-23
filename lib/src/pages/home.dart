@@ -7,6 +7,7 @@ import '../../assets/colors.dart';
 import '../session_manager.dart';
 import '../widgets/containers.dart';
 import '../widgets/text.dart';
+import '../logic/home.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,14 +19,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _steps = 0, _sleep = 0, _water = 0;
   int _score_steps = 0, _score_sleep = 0, _score_water = 0;
-
-  /*
+  
   @override
   void initState() {
     super.initState();
-    //_loadHealthData().then((value) => _calculateScores());
+    HomeLogic homeLogic = HomeLogic();
+    homeLogic.loadHealthData();
   }
-  */
+  void updateState(int steps, int sleep, int water) {
+    setState(() {
+      _steps = steps;
+      _sleep = sleep;
+      _water = water;
+    });
+  }
 
   @override
   Widget build(context) {
