@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dima_project_2023">
+    package="com.dima_project_2023">
     <queries>
         <package android:name="com.google.android.apps.healthdata" />
         <intent>
