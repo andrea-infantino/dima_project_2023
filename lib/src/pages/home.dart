@@ -1,13 +1,10 @@
 import 'package:dima_project_2023/src/db_snapshot.dart';
 import 'package:dima_project_2023/src/logic/home.dart';
-import 'package:dima_project_2023/src/pages/authentication/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../assets/colors.dart';
 import '../session_manager.dart';
 import '../widgets/containers.dart';
 import '../widgets/text.dart';
-import '../logic/home.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
