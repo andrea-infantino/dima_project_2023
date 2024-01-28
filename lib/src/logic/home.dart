@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
 import '../pages/authentication/login.dart';
+import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 class HomeLogic {
   static void logout(BuildContext context) {
@@ -12,12 +14,15 @@ class HomeLogic {
       MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
+
+
   Future<void> loadHealthData() async {
-    Stream<StepCount> stepCountStream = Pedometer.stepCountStream;
+    Stream<StepCount> stepCountStream = await Pedometer.stepCountStream;
     await Permission.location.request();
     await Permission.activityRecognition.request();
     stepCountStream.listen((StepCount event) {
       print("Steps in your account are: ${event.steps}");
+      print("andrea sei bello<3");
     });
 
     // HealthFactory health = HealthFactory();

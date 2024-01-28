@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB9Flqjac4lGDqOs9nhRZPM99xMRt-qtzQ',
-    appId: '1:445585836964:android:8353a6b0cf127f43074f31',
+    appId: '1:445585836964:android:18d190815fc9decf074f31',
     messagingSenderId: '445585836964',
     projectId: 'dima-project-2023',
     databaseURL: 'https://dima-project-2023-default-rtdb.firebaseio.com',
