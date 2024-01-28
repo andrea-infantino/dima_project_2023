@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
 import '../pages/authentication/login.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 class HomeLogic {
   static void logout(BuildContext context) {
     FirebaseAuth.instance.signOut();
@@ -13,6 +12,8 @@ class HomeLogic {
       MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
+
+
   Future<void> loadHealthData() async {
     Stream<StepCount> stepCountStream = Pedometer.stepCountStream;
     await Permission.location.request();
@@ -33,7 +34,7 @@ class HomeLogic {
     // bool? hasPermissions =
     //     await health.hasPermissions(types, permissions: permissions);
     // print("hasPermissions: $hasPermissions");
-    // bool? authorized =
+    // bool? authorized = 
     //   await health.requestAuthorization([HealthDataType.STEPS]);
     // int? steps = await health.getTotalStepsInInterval(midnight, now);
     // print('steps: $steps');
@@ -118,4 +119,5 @@ class HomeLogic {
       updateMyWater(score_water);
     }
   }*/
+
 }

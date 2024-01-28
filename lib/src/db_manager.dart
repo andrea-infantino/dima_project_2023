@@ -44,8 +44,7 @@ Future<void> initDB() async {
     }
 
     List<Object?> achievements =
-        (await usersRef.child("$uid/achievements").get()).value
-            as List<Object?>;
+        (await usersRef.child("$uid/achievements").get()).value as List<Object?>;
     if (achievements.length < Achievements.N) {
       for (int i = achievements.length; i < Achievements.N; i++) {
         achievements.add(0);
@@ -140,32 +139,35 @@ Future<List<String>> getUsers() async {
   return users;
 }
 
-Future<void> updateMySteps(steps) async {
+/*Future<int> getMySteps() async {
   String uid = Session.instance.uid;
   var snapshot = await usersRef.child("$uid/steps").get();
-  int val = snapshot.value as int;
-  int oldScore = val ~/ 100;
-  int newScore = steps ~/ 100;
-  updateMyScore(newScore - oldScore);
+  return snapshot.value as int;
+}*/
+
+void updateMySteps(steps) {
+  String uid = Session.instance.uid;
   usersRef.child('$uid/steps').set(steps);
 }
 
-Future<void> updateMySleep(sleep) async {
+/*Future<int> getMySleep() async {
   String uid = Session.instance.uid;
   var snapshot = await usersRef.child("$uid/sleep").get();
-  int val = snapshot.value as int;
-  int oldScore = val.floor();
-  int newScore = sleep ~/ 100;
-  updateMyScore(newScore - oldScore);
+  return snapshot.value as int;
+}*/
+
+void updateMySleep(sleep) {
+  String uid = Session.instance.uid;
   usersRef.child('$uid/sleep').set(sleep);
 }
 
-Future<void> updateMyWater(water) async {
+/*Future<int> getMyWater() async {
   String uid = Session.instance.uid;
   var snapshot = await usersRef.child("$uid/water").get();
-  int val = snapshot.value as int;
-  int oldScore = val ~/ 100;
-  int newScore = water ~/ 100;
-  updateMyScore(newScore - oldScore);
+  return snapshot.value as int;
+}*/
+
+void updateMyWater(water) {
+  String uid = Session.instance.uid;
   usersRef.child('$uid/water').set(water);
 }

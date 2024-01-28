@@ -62,5 +62,3 @@
 .flutter-plugins
 .flutter-plugins-dependencies
 .pub/
-
-node_modules/
