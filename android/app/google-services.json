@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "445585836964-k6f48tft64rng2j90gdcclvqaomvo292.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.dima_project_2023",
-            "certificate_hash": "ccc95c685a649efd48ecb2ac6543d28e07bdc31d"
-          }
-        },
-        {
           "client_id": "445585836964-7k9l28cqjog4ej8pjsd4s7jh5suikq2s.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -57,10 +49,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:445585836964:android:8353a6b0cf127f43074f31",
         "android_client_info": {
-          "package_name": "com.dima_project_2023"
+          "package_name": "com.example.dima_project_2023"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "445585836964-7f9nmnbhi0nh6pkc5218ac0bidkmg77i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dima_project_2023",
+            "certificate_hash": "8e3af756bac996e5b2cb25b63c8490f2627764b7"
+          }
+        },
         {
           "client_id": "445585836964-7k9l28cqjog4ej8pjsd4s7jh5suikq2s.apps.googleusercontent.com",
           "client_type": 3
