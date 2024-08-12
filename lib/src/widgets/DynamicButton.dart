@@ -11,18 +11,31 @@ class MyDynamicButton extends StatefulWidget {
 }
 
 class _MyDynamicButtonState extends State<MyDynamicButton> {
+  bool _isPressed = false;
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {
+      onPressed: () async{
+        setState(() {
+          _isPressed = true;
+        });
         if (isConnected()) {
-          unlinkGoogle();
+         await unlinkGoogle();
         } else {
-          linkEmailGoogle();
+         await linkEmailGoogle();
         }
         // Call setState to rebuild the widget with the new state
-        setState(() {});
+        setState(() {
+          _isPressed = false;
+        });
       },
+      style: TextButton.styleFrom(
+        side: const BorderSide(color: GOOGLE_BLUE, width: 2), // Set border width and color
+        backgroundColor: _isPressed ? GOOGLE_BLUE.withOpacity(0.5) : Colors.transparent, // Set the background color
+        foregroundColor: _isPressed ? Colors.white : GOOGLE_BLUE, // Set the text color
+        
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

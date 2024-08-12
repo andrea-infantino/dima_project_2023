@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => HomeLogic.logout(context),
                 child: Text('Log-out',
                     style: MyTextStyle.get(size: 15, color: WATER_GREEN))),
-            MyDynamicButton(),
             const SizedBox(height: 20),
             ValueListenableBuilder<int>(
                 valueListenable: DBsnapshot.instance.score,
@@ -50,6 +49,7 @@ class _HomePageState extends State<HomePage> {
                   return ScoreContainer(score: DBsnapshot.instance.score.value);
                 }),
             Container(height: 20),
+            MyDynamicButton(),
             const Divider(),
             Text('Activities:',
                 style: MyTextStyle.get(
