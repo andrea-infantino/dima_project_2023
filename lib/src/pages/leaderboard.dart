@@ -23,7 +23,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
           Container(height: (Session.instance.deviceHeight) * (1 / 15)),
           Padding(
               padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                  const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: Text('Leaderboard:',
                   style: MyTextStyle.get(
                     size: 50,

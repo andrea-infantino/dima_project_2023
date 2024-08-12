@@ -47,6 +47,12 @@ class DBsnapshot {
           achievementsFound = true;
           achievements.value = List.from(newData[key]);
           achievements.notifyListeners();
+        } else if (key == "sleep") {
+          sleep.value = newData[key];
+        } else if (key == "steps") {
+          steps.value = newData[key];
+        } else if (key == "water") {
+          water.value = newData[key];
         }
       }
 

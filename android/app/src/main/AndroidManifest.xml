@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dima_project_2023">
+    package="com.example.dima_project_2023">
     <queries>
         <package android:name="com.google.android.apps.healthdata" />
         <intent>
@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.health.WRITE_SLEEP"/>
     <uses-permission android:name="android.permission.health.READ_HYDRATION"/>
     <uses-permission android:name="android.permission.health.WRITE_HYDRATION"/>
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
+    <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
    <application
         android:label="dima_project_2023"
         android:name="${applicationName}"

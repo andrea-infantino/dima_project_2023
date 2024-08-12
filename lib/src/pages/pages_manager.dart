@@ -20,11 +20,11 @@ class _PagesManagerState extends State<PagesManager> {
     return Scaffold(
       body: IndexedStack(
         index: index,
-        children: <Widget>[
-          const HomePage(),
-          const FriendsPage(),
-          const LeaderboardPage(),
-          const AchievementsPage() // TODO: AchievementsPage
+        children: const <Widget>[
+          HomePage(),
+          FriendsPage(),
+          LeaderboardPage(),
+          AchievementsPage() // TODO: AchievementsPage
         ],
       ),
       bottomNavigationBar: NavigationBar(
