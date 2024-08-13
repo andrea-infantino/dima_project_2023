@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:dima_project_2023/src/db_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
@@ -41,20 +41,27 @@ class HomeLogic {
       if(authorized!){
         print("authorized: $authorized");
         steps = await health.getTotalStepsInInterval(midnight, now);
-        print('steps: $steps');
+        print('steps: $steps (${steps.runtimeType})');
+        if(steps != null){
+          updateMySteps(steps);
+        }
         List<HealthDataPoint> list = await health.getHealthDataFromTypes(midnight, now, types);
+        print('list: $list');
         for (var el in list) {
-            print(el.typeString);
+          print(el.typeString);
           switch (el.typeString) {
             case 'SLEEP_IN_BED':
               {
                 var value = el.value as NumericHealthValue;
                 print('sleep: ${value.numericValue}');
+                // updateMySleep(value.numericValue.toInt());
                 break;
               }
             case 'WATER':
               {
                 var value = el.value as NumericHealthValue;
+                double intValue = value.numericValue * 1000;
+                updateMyWater(intValue.toInt());
                 print('water: ${value.numericValue}');
                 break;
               }

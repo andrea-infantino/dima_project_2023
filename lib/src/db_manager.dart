@@ -5,9 +5,9 @@ import 'session_manager.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 late DatabaseReference myRef, usersRef;
-
+late String uid;
 Future<void> initDB() async {
-  String uid = Session.instance.uid;
+  uid = Session.instance.uid;
   usersRef = FirebaseDatabase.instance.ref("users/");
   myRef = usersRef.child(uid);
 
@@ -64,7 +64,6 @@ Future<String> getEmailOf(String uid) async {
 }
 
 void updateMyScore(score) {
-  String uid = Session.instance.uid;
   usersRef.child('$uid/score').set(score);
   usersRef.child('$uid/achievements/0').set(score);
 }
@@ -141,7 +140,6 @@ Future<List<String>> getUsers() async {
 }
 
 Future<void> updateMySteps(steps) async {
-  String uid = Session.instance.uid;
   var snapshot = await usersRef.child("$uid/steps").get();
   int val = snapshot.value as int;
   int oldScore = val ~/ 100;
@@ -161,7 +159,6 @@ Future<void> updateMySleep(sleep) async {
 }
 
 Future<void> updateMyWater(water) async {
-  String uid = Session.instance.uid;
   var snapshot = await usersRef.child("$uid/water").get();
   int val = snapshot.value as int;
   int oldScore = val ~/ 100;
