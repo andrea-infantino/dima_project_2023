@@ -32,9 +32,6 @@ class Redirect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Session.init(
-        MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
-
     // TODO: Check if a session can be taken, otherwise:
     return const LoginPage();
   }

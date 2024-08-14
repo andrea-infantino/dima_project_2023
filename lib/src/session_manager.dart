@@ -13,6 +13,7 @@ class Session {
   }
 
   Future<void> setUser(String email, String uid) async {
+    print('Setting user: $email, $uid');
     _session._email = email;
     _session._uid = uid;
     await initDB();
