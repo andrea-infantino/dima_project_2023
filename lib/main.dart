@@ -7,7 +7,7 @@ import 'package:dima_project_2023/src/pages/authentication/login.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
+  await Firebase.initializeApp( 
     // name: 'Healthy Challenge',
     options: DefaultFirebaseOptions.currentPlatform,
   );
