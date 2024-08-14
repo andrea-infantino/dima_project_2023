@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:dima_project_2023/src/db_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
 import '../pages/authentication/login.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:health/health.dart';
 class HomeLogic {
   static void logout(BuildContext context) {
     FirebaseAuth.instance.signOut();
@@ -13,31 +15,60 @@ class HomeLogic {
     );
   }
 
-
   Future<void> loadHealthData() async {
-    Stream<StepCount> stepCountStream = Pedometer.stepCountStream;
+    Stream<StepCount> stepCountStream = await Pedometer.stepCountStream;
     await Permission.location.request();
     await Permission.activityRecognition.request();
     stepCountStream.listen((StepCount event) {
       print("Steps in your account are: ${event.steps}");
     });
 
-    // HealthFactory health = HealthFactory();
-
-    // var types = [HealthDataType.STEPS];
-    // var permissions = [HealthDataAccess.READ];
-
-    // var now = DateTime.now();
-    // var midnight = DateTime(now.year, now.month, now.day);
-    // await Permission.activityRecognition.request();
-    // await Permission.location.request();
-    // bool? hasPermissions =
-    //     await health.hasPermissions(types, permissions: permissions);
+    HealthFactory health = HealthFactory();
+    int? steps = 0;
+    var types = [HealthDataType.WATER, HealthDataType.HEART_RATE, HealthDataType.STEPS];
+    var permissions = [HealthDataAccess.READ, HealthDataAccess.READ, HealthDataAccess.READ];
+    var now = DateTime.now();
+    var midnight = DateTime(now.year, now.month, now.day);
+    await Permission.activityRecognition.request();
+    await Permission.location.request();
+    bool? hasPermissions =
+        await health.hasPermissions(types, permissions: permissions);
+    hasPermissions = false;
     // print("hasPermissions: $hasPermissions");
-    // bool? authorized = 
-    //   await health.requestAuthorization([HealthDataType.STEPS]);
-    // int? steps = await health.getTotalStepsInInterval(midnight, now);
-    // print('steps: $steps');
+    if(!hasPermissions!){
+      bool? authorized =
+        await health.requestAuthorization(types);
+      if(authorized!){
+        print("authorized: $authorized");
+        steps = await health.getTotalStepsInInterval(midnight, now);
+        print('steps: $steps (${steps.runtimeType})');
+        if(steps != null){
+          updateMySteps(steps);
+        }
+        List<HealthDataPoint> list = await health.getHealthDataFromTypes(midnight, now, types);
+        print('list: $list');
+        for (var el in list) {
+          print(el.typeString);
+          switch (el.typeString) {
+            case 'SLEEP_IN_BED':
+              {
+                var value = el.value as NumericHealthValue;
+                print('sleep: ${value.numericValue}');
+                // updateMySleep(value.numericValue.toInt());
+                break;
+              }
+            case 'WATER':
+              {
+                var value = el.value as NumericHealthValue;
+                double intValue = value.numericValue * 1000;
+                updateMyWater(intValue.toInt());
+                print('water: ${value.numericValue}');
+                break;
+              }
+          }
+        }
+      }
+    }
     // bool? hasPermissions =
     //     await health.hasPermissions(types, permissions: permissions);
     // bool authorized = false;
@@ -119,5 +150,4 @@ class HomeLogic {
       updateMyWater(score_water);
     }
   }*/
-
 }

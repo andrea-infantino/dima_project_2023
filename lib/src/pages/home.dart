@@ -1,10 +1,15 @@
+import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:dima_project_2023/src/db_snapshot.dart';
 import 'package:dima_project_2023/src/logic/home.dart';
+import 'package:dima_project_2023/src/pages/authentication/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../assets/colors.dart';
 import '../session_manager.dart';
 import '../widgets/containers.dart';
 import '../widgets/text.dart';
+import '../logic/home.dart';
+import '../widgets/DynamicButton.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,21 +19,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _steps = 0, _sleep = 0, _water = 0;
   int _score_steps = 0, _score_sleep = 0, _score_water = 0;
-  
+
   @override
   void initState() {
     super.initState();
     HomeLogic homeLogic = HomeLogic();
     homeLogic.loadHealthData();
-  }
-  void updateState(int steps, int sleep, int water) {
-    setState(() {
-      _steps = steps;
-      _sleep = sleep;
-      _water = water;
-    });
   }
 
   @override
@@ -52,6 +49,7 @@ class _HomePageState extends State<HomePage> {
                   return ScoreContainer(score: DBsnapshot.instance.score.value);
                 }),
             Container(height: 20),
+            MyDynamicButton(),
             const Divider(),
             Text('Activities:',
                 style: MyTextStyle.get(
@@ -61,26 +59,44 @@ class _HomePageState extends State<HomePage> {
             Expanded(
                 child: ListView(
               children: [
-                ActivityTile(
-                  activityName: 'Steps',
-                  udm: '',
-                  activityValue: _steps,
-                  score: _score_steps,
-                  icon: Icons.nordic_walking,
-                ),
-                ActivityTile(
-                  activityName: 'Hydratation',
-                  udm: 'mL',
-                  activityValue: _water,
-                  score: _score_water,
-                  icon: Icons.fitness_center,
-                ),
-                ActivityTile(
-                    activityName: 'Sleep',
-                    udm: 'h',
-                    activityValue: _sleep,
-                    score: _score_sleep,
-                    icon: Icons.nightlight),
+                ValueListenableBuilder<int>(
+                    valueListenable: DBsnapshot.instance.steps,
+                    builder: (context, value, child) {
+                      int val = DBsnapshot.instance.steps.value;
+                      int score = val ~/ 100;
+                      return ActivityTile(
+                        activityName: 'Steps',
+                        udm: '',
+                        activityValue: val,
+                        score: score,
+                        icon: Icons.nordic_walking,
+                      );
+                    }),
+                ValueListenableBuilder<int>(
+                    valueListenable: DBsnapshot.instance.water,
+                    builder: (context, value, child) {
+                      int val = DBsnapshot.instance.water.value;
+                      int score = val ~/ 100;
+                      return ActivityTile(
+                        activityName: 'Hydratation',
+                        udm: 'mL',
+                        activityValue: val,
+                        score: score,
+                        icon: Icons.fitness_center,
+                      );
+                    }),
+                ValueListenableBuilder<int>(
+                    valueListenable: DBsnapshot.instance.sleep,
+                    builder: (context, value, child) {
+                      int val = DBsnapshot.instance.sleep.value;
+                      int score = val.floor();
+                      return ActivityTile(
+                          activityName: 'Sleep',
+                          udm: 'h',
+                          activityValue: val,
+                          score: score,
+                          icon: Icons.nightlight);
+                    }),
               ],
             ))
           ],

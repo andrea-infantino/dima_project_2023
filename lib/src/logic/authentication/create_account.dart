@@ -12,7 +12,8 @@ class RegistrationLogic {
       _passwordDontMatch(context);
       return;
     }
-
+    Session.init(
+      MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)

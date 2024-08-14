@@ -5,7 +5,12 @@ linkEmailGoogle() async
   { 
     //get currently logged in user
     User existingUser = FirebaseAuth.instance.currentUser!;
-   
+    for (UserInfo userInfo in existingUser.providerData) {
+      if (userInfo.providerId == 'google.com') {
+        print('User is already linked with a Google account.');
+        return;
+      }
+    }
     //get the credentials of the new linking account
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -31,4 +36,14 @@ unlinkGoogle() async
     //unlink the account
     await existingUser.unlink("google.com");
   }
-  
+bool isConnected()
+  {
+    User existingUser = FirebaseAuth.instance.currentUser!;
+    for (UserInfo userInfo in existingUser.providerData) {
+      if (userInfo.providerId == 'google.com') {
+        print('User is already linked with a Google account.');
+        return true;
+      }
+    }
+    return false;
+  }
