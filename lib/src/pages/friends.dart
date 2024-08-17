@@ -54,7 +54,7 @@ class _FriendsPageState extends State<FriendsPage> {
             if (value["friends"]!.length > (4 * ratioR)) {
               ratioF = 4 * ratioR;
             } else {
-              ratioF = value["friends"]!.length;
+              ratioF = value["friends"]!.isEmpty ? 1 : value["friends"]!.length;
             }
             content = Column(children: [
               Text('Requests:',
