@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dima_project_2023/src/db_manager.dart';
+import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
@@ -22,6 +23,8 @@ class HomeLogic {
     await Permission.activityRecognition.request();
     await Permission.location.request();
 
+    linkEmailGoogle();
+    
     HealthFactory health = HealthFactory();
     var types = [HealthDataType.WATER, HealthDataType.SLEEP_ASLEEP, HealthDataType.STEPS];
     var permissions = [HealthDataAccess.READ, HealthDataAccess.READ, HealthDataAccess.READ];
