@@ -62,10 +62,14 @@ Future<String> getEmailOf(String uid) async {
   return snapshot.value as String;
 }
 
-void updateMyScore(score) {
+void updateMyScore(int score) async {
+  if(score <= 0) return;
   String uid = Session.instance.uid;
-  usersRef.child('$uid/score').set(score);
-  usersRef.child('$uid/achievements/0').set(score);
+  var snapshot = await usersRef.child('$uid/score').get();
+  int currentScore = snapshot.value as int;
+  int newScore = currentScore + score;
+  usersRef.child('$uid/score').set(newScore);
+  usersRef.child('$uid/achievements/0').set(newScore);
 }
 
 Future<int> getScoreOf(String uid) async {
