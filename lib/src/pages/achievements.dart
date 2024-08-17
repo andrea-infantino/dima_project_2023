@@ -2,7 +2,6 @@ import 'package:dima_project_2023/src/logic/achievements.dart';
 
 import '../../assets/colors.dart';
 import '../db_snapshot.dart';
-import '../session_manager.dart';
 import 'package:flutter/material.dart';
 import '../widgets/containers.dart';
 import '../widgets/text.dart';
@@ -29,7 +28,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(height: (Session.instance.deviceHeight) * (1 / 15)),
+              //Container(height: (MediaQuery.of(context).size.height) * (1 / 15)),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 20, right: 20, top: 10, bottom: 10),

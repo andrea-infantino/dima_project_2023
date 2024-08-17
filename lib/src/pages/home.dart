@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(height: (Session.instance.deviceHeight) * (1 / 15)),
+            //Container(height: (MediaQuery.of(context).size.height) * (1 / 15)),
             Text('Hi $username', style: MyTextStyle.get(size: 30, bold: true)),
             TextButton(
                 onPressed: () => HomeLogic.logout(context),
