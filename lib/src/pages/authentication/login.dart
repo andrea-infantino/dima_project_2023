@@ -1,4 +1,5 @@
 import 'package:dima_project_2023/src/logic/authentication/login.dart';
+import 'package:dima_project_2023/src/pages/authentication/forgot_password.dart';
 import 'create_account.dart';
 import 'package:flutter/material.dart';
 import 'package:dima_project_2023/main.dart';
@@ -42,10 +43,20 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: const InputDecoration(labelText: 'Password'),
                           obscureText: true,
                         ),
+                        const SizedBox(height: 10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                            );
+                          },
+                          child: const Text('Forgot Password?'),
+                        ),
                       ]
                     )
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: (() => LoginLogic.login(
                         context, _emailController.text, _passwordController.text)),
