@@ -33,16 +33,28 @@ class Redirect extends StatefulWidget {
 }
 
 class _RedirectState extends State<Redirect> {
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Session.init(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
+      setState(() {
+        _isLoading = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+    }
     // TODO: Check if a session can be taken, otherwise:
     return const LoginPage();
   }
