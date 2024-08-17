@@ -20,15 +20,26 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Healthy Challenge',
         home: Redirect());
   }
 }
 
-class Redirect extends StatelessWidget {
-  const Redirect({super.key});
+class Redirect extends StatefulWidget {
+  @override
+  _RedirectState createState() => _RedirectState();
+}
+
+class _RedirectState extends State<Redirect> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Session.init(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,6 @@ import '../achievements.dart';
 class LoginLogic {
   static Future<void> login(
       BuildContext context, String email, String password) async {
-      Session.init(
-        MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)

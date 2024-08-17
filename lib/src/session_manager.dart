@@ -4,12 +4,13 @@ class Session {
   static late Session _session;
   late String _email, _uid;
   late double _deviceHeight, _deviceWidth;
+  late DeviceType _deviceType;
 
   static void init(double deviceHeight, double deviceWidth) {
     _session = Session._internal(deviceHeight, deviceWidth);
+    _session._deviceType = deviceWidth > 600 ? DeviceType.Tablet : DeviceType.Phone;
     _session._email = '';
     _session._uid = '';
-
   }
 
   Future<void> setUser(String email, String uid) async {
@@ -33,4 +34,11 @@ class Session {
   double get deviceHeight => _deviceHeight;
 
   double get deviceWidth => _deviceWidth;
+
+  DeviceType get deviceType => _deviceType;
+}
+
+enum DeviceType {
+    Phone,
+    Tablet
 }
