@@ -16,6 +16,12 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    LoginLogic.checkLoginStatus(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: OrientationBuilder(builder: ((context, orientation) {

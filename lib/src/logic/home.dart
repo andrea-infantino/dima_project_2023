@@ -8,11 +8,15 @@ import '../pages/authentication/login.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:health/health.dart';
 
+import 'authentication/login.dart';
+
 class HomeLogic {
   Timer? _timer;
 
   static void logout(BuildContext context) {
     FirebaseAuth.instance.signOut();
+    LoginLogic.prefs.remove('email');
+    LoginLogic.prefs.remove('password');
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const LoginPage()),

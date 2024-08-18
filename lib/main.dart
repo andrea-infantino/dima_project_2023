@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dima_project_2023/src/db_snapshot.dart';
 import 'package:dima_project_2023/src/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,6 +35,7 @@ void main() async {
   }
 
   Session.init();
+  DBsnapshot.init();
 
   await Firebase.initializeApp( 
     options: DefaultFirebaseOptions.currentPlatform,

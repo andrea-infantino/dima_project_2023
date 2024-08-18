@@ -1,3 +1,4 @@
+import 'package:dima_project_2023/src/logic/authentication/login.dart';
 import 'package:dima_project_2023/src/widgets/dialog_windows.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,11 @@ class RegistrationLogic {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) =>
-              Session.instance.setUser(value.user!.email!, value.user!.uid))
+          .then((value) {
+              Session.instance.setUser(value.user!.email!, value.user!.uid);
+              LoginLogic.prefs.setString('email', email);
+              LoginLogic.prefs.setString('password', password);
+          })
           .then((value) => Achievements.init())
           .then((value) => Navigator.push(
                 context,

@@ -53,7 +53,6 @@ Future<void> initDB() async {
     }
   }
 
-  DBsnapshot.init();
   await DBsnapshot.instance.listen();
 }
 
