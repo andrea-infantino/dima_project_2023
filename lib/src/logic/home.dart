@@ -3,7 +3,6 @@ import 'package:dima_project_2023/src/db_manager.dart';
 import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pedometer/pedometer.dart';
 import '../pages/authentication/login.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:health/health.dart';
@@ -11,7 +10,6 @@ import 'package:health/health.dart';
 import 'authentication/login.dart';
 
 class HomeLogic {
-  Timer? _timer;
 
   static void logout(BuildContext context) {
     FirebaseAuth.instance.signOut();
@@ -38,14 +36,14 @@ class HomeLogic {
     bool? hasPermissions = await health.hasPermissions(types, permissions: permissions);
     hasPermissions = false;
 
-    if (!hasPermissions!) {
+    if (!hasPermissions) {
       bool? authorized = await health.requestAuthorization(types);
-      if (authorized!) {
+      if (authorized) {
         // Call the method immediately
         await fetchAndUpdateHealthData(health, midnight, now, types);
 
         // Start the timer loop
-        _timer = Timer.periodic(Duration(seconds: 10), (timer) async {
+        Timer.periodic(Duration(seconds: 10), (timer) async {
           now = DateTime.now();
           await fetchAndUpdateHealthData(health, midnight, now, types);
         });

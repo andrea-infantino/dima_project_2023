@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:dima_project_2023/src/widgets/text.dart';
-import '../../assets/colors.dart';
 
 const Color GOOGLE_BLUE = Color(0xFF4285F4);
 

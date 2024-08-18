@@ -1,4 +1,3 @@
-import 'package:dima_project_2023/assets/colors.dart';
 import 'package:dima_project_2023/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';

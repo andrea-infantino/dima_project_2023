@@ -17,12 +17,26 @@ class PagesManager extends StatefulWidget {
 class _PagesManagerState extends State<PagesManager> {
   int _index = 0;
   final PageController _controller = PageController();
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Wait for all the network requests
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(context) {
       return Scaffold(
-        body: 
-        Column(
+        body: Stack(
+        children: [
+          Column(
           children: [
             const SizedBox(height: 75),
             Expanded(
@@ -150,7 +164,18 @@ class _PagesManagerState extends State<PagesManager> {
           );
         }
       )
-      )]));
+      )]),
+
+      if (_isLoading)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
+      ]));
   }
 
   Widget buildDot(int index, BuildContext context) {

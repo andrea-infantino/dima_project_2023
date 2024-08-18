@@ -1,4 +1,3 @@
-import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:dima_project_2023/src/widgets/dialog_windows.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,20 +31,21 @@ class LoginLogic {
   }
 
   static void _invalidCredentials(BuildContext context, FirebaseAuthException error) {
-    print(error);
     showDialog(
         context: context,
         builder: (context) => const OkDialog(
             title: 'Login Failed', content: 'Invalid email or password.'));
   }
 
-  static Future<void> checkLoginStatus(BuildContext context) async {
+  static Future<List<String>?> checkLoginStatus() async {
     prefs = await SharedPreferences.getInstance();
     String? savedEmail = prefs.getString('email');
     String? savedPassword = prefs.getString('password');
 
-    if (savedEmail != null && savedPassword != null) {
-      login(context, savedEmail, savedPassword);
+    if (savedEmail != null && savedPassword != null) {      
+      return List<String>.from(<String>[savedEmail, savedPassword]);
     }
+
+    return null;
   }
 }

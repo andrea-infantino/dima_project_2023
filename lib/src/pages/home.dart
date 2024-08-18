@@ -1,14 +1,10 @@
-import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:dima_project_2023/src/db_snapshot.dart';
 import 'package:dima_project_2023/src/logic/home.dart';
-import 'package:dima_project_2023/src/pages/authentication/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../assets/colors.dart';
 import '../session_manager.dart';
 import '../widgets/containers.dart';
 import '../widgets/text.dart';
-import '../logic/home.dart';
 import '../widgets/DynamicButton.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,8 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _score_steps = 0, _score_sleep = 0, _score_water = 0;
-
   @override
   void initState() {
     super.initState();

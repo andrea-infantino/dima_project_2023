@@ -49,23 +49,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Healthy Challenge',
-        home: Redirect());
-  }
-}
-
-class Redirect extends StatefulWidget {
-  @override
-  _RedirectState createState() => _RedirectState();
-}
-
-class _RedirectState extends State<Redirect> {
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: Check if a session can be taken, otherwise:
-    return const LoginPage();
+        home: LoginPage());
   }
 }

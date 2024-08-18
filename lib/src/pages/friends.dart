@@ -2,7 +2,6 @@ import 'package:dima_project_2023/src/logic/friends.dart';
 
 import '../../assets/colors.dart';
 import '../db_snapshot.dart';
-import '../session_manager.dart';
 import 'package:flutter/material.dart';
 import '../widgets/text.dart';
 
