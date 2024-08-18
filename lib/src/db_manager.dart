@@ -37,9 +37,7 @@ Future<void> initDB() async {
         (await usersRef.child("$uid/last_login").get()).value as String;
     if (lastLogin != now) {
       usersRef.child("$uid/last_login").set(now);
-      updateMySleep(0);
-      updateMySteps(0);
-      updateMyWater(0);
+      updateDailyScores();
     }
 
     List<Object?> achievements =
@@ -144,31 +142,39 @@ Future<List<String>> getUsers() async {
 
 Future<void> updateMySteps(steps) async {
   String uid = Session.instance.uid; 
-  var snapshot = await usersRef.child("$uid/steps").get();
-  int val = snapshot.value as int;
-  int oldScore = val ~/ 100;
-  int newScore = steps ~/ 100;
-  updateMyScore(newScore - oldScore);
-  print('uid1: $uid');
   usersRef.child('$uid/steps').set(steps);
 }
 
 Future<void> updateMySleep(sleep) async {
   String uid = Session.instance.uid;
-  var snapshot = await usersRef.child("$uid/sleep").get();
-  int val = snapshot.value as int;
-  int oldScore = val.floor();
-  int newScore = sleep ~/ 100;
-  updateMyScore(newScore - oldScore);
   usersRef.child('$uid/sleep').set(sleep);
 }
 
 Future<void> updateMyWater(water) async {
   String uid = Session.instance.uid;
-  var snapshot = await usersRef.child("$uid/water").get();
-  int val = snapshot.value as int;
-  int oldScore = val ~/ 100;
-  int newScore = water ~/ 100;
-  updateMyScore(newScore - oldScore);
   usersRef.child('$uid/water').set(water);
+}
+
+Future<void> updateDailyScores() async {
+  String uid = Session.instance.uid;
+
+  var sleepSnapshot = await usersRef.child("$uid/sleep").get();
+  int dailySleep = sleepSnapshot.value as int;
+  int sleepScore = dailySleep ~/ 100;
+
+  var stepsSnapshot = await usersRef.child("$uid/steps").get();
+  int dailySteps = stepsSnapshot.value as int;
+  int stepsScore = dailySteps ~/ 100;
+
+  var waterSnapshot = await usersRef.child("$uid/water").get();
+  int dailyWater = waterSnapshot.value as int;
+  int waterScore = dailyWater ~/ 100;
+
+  int totalScore = sleepScore + stepsScore + waterScore;
+  updateMyScore(totalScore);
+
+  // Reset daily values
+  usersRef.child('$uid/sleep').set(0);
+  usersRef.child('$uid/steps').set(0);
+  usersRef.child('$uid/water').set(0);
 }

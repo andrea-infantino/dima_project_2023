@@ -6,7 +6,7 @@ TODO LIST:
   - [x] Non so se è una vera soluzione quella dello UID chiedere ad Andrea
   - [x] Capire cosa fare con i dati del sonno
 - [x] Multiple devices -> Aggiungere la schermata per il tablet almeno
-- [ ] Cambiare lo score (Ale)
+- [x] Cambiare lo score (Ale)
 - [ ] Aggiungere i test (Ale)
 - [x] Password Forgotten page (Andrea)
 - [x] Fix della pagina degli amici (Andrea)

@@ -9,16 +9,17 @@ import '../widgets/DynamicButton.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
+  
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  late HomeLogic homeLogic;
   @override
   void initState() {
     super.initState();
-    HomeLogic homeLogic = HomeLogic();
+    homeLogic = HomeLogic();
     homeLogic.loadHealthData();
   }
 
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
             //Container(height: (MediaQuery.of(context).size.height) * (1 / 15)),
             Text('Hi $username', style: MyTextStyle.get(size: 30, bold: true)),
             TextButton(
-                onPressed: () => HomeLogic.logout(context),
+                onPressed: () => HomeLogic.logout(context, homeLogic.healthDataTimer),
                 child: Text('Log-out',
                     style: MyTextStyle.get(size: 15, color: WATER_GREEN))),
             const SizedBox(height: 20),

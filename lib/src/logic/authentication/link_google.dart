@@ -35,6 +35,7 @@ unlinkGoogle() async
     User existingUser = FirebaseAuth.instance.currentUser!;
     //unlink the account
     await existingUser.unlink("google.com");
+    GoogleSignIn().signOut();
   }
 bool isConnected()
   {

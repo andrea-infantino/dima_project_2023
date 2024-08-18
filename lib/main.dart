@@ -10,23 +10,24 @@ import 'package:dima_project_2023/src/pages/authentication/login.dart';
 
 late int deviceType; // 0: Phone, 1: Tablet
 
+void setDeviceType(double physicalWidth, double physicalHeight, double devicePixelRatio) {
+  final double logicalWidth = physicalWidth / devicePixelRatio;
+  final double logicalHeight = physicalHeight / devicePixelRatio;
+
+  if (logicalHeight > logicalWidth) {
+    deviceType = logicalWidth < 600 ? 0 : 1;
+  } else {
+    deviceType = logicalHeight < 600 ? 0 : 1;
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final double physicalWidth = PlatformDispatcher.instance.views.first.physicalSize.width;
   final double physicalHeight = PlatformDispatcher.instance.views.first.physicalSize.height;
-
   final double devicePixelRatio = PlatformDispatcher.instance.views.first.devicePixelRatio;
-    
-  final double logicalWidth = physicalWidth / devicePixelRatio;
-  final double logicalHeight = physicalHeight / devicePixelRatio;
 
-  
-  if (logicalHeight > logicalWidth) {
-    deviceType = logicalWidth < 600 ? 0 : 1;
-  }
-  else {
-    deviceType = logicalHeight < 600 ? 0 : 1;
-  }
+  setDeviceType(physicalWidth, physicalHeight, devicePixelRatio);
 
   if (deviceType == 0) {
     SystemChrome.setPreferredOrientations([
@@ -37,7 +38,7 @@ void main() async {
   Session.init();
   DBsnapshot.init();
 
-  await Firebase.initializeApp( 
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 

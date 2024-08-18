@@ -3,6 +3,7 @@ import 'package:dima_project_2023/src/db_manager.dart';
 import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../pages/authentication/login.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:health/health.dart';
@@ -10,9 +11,18 @@ import 'package:health/health.dart';
 import 'authentication/login.dart';
 
 class HomeLogic {
+  Timer? _healthDataTimer;
 
-  static void logout(BuildContext context) {
+  get healthDataTimer => _healthDataTimer;
+
+  static void logout(BuildContext context , Timer? healthDataTimer) {
+    healthDataTimer?.cancel();
+    healthDataTimer = null;
     FirebaseAuth.instance.signOut();
+    
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    googleSignIn.signOut();
+
     LoginLogic.prefs.remove('email');
     LoginLogic.prefs.remove('password');
     Navigator.push(
@@ -43,7 +53,7 @@ class HomeLogic {
         await fetchAndUpdateHealthData(health, midnight, now, types);
 
         // Start the timer loop
-        Timer.periodic(Duration(seconds: 10), (timer) async {
+        _healthDataTimer = Timer.periodic(Duration(seconds: 10), (timer) async {
           now = DateTime.now();
           await fetchAndUpdateHealthData(health, midnight, now, types);
         });
@@ -56,7 +66,7 @@ class HomeLogic {
     double totalWater = 0;
     int totalSleep = 0;
     steps = await health.getTotalStepsInInterval(midnight, now);
-    print('steps: $steps (${steps.runtimeType})');
+    // print('steps: $steps (${steps.runtimeType})');
     if (steps != null) {
       updateMySteps(steps);
     }

@@ -1,5 +1,7 @@
+import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:dima_project_2023/src/logic/authentication/login.dart';
 import 'package:dima_project_2023/src/pages/authentication/forgot_password.dart';
+import 'package:dima_project_2023/src/widgets/text.dart';
 import 'create_account.dart';
 import 'package:flutter/material.dart';
 import 'package:dima_project_2023/main.dart';
@@ -30,6 +32,12 @@ class _LoginPageState extends State<LoginPage> {
       LoginLogic.login(context, savedCredentials.first, savedCredentials.last).then((value) => 
       setState(() => _isLoading = false));
     }
+  }
+
+  Future<void> _signinWithGoogle() async{
+    setState(() => _isLoading = true);
+    await LoginLogic.signInWithGoogle(context).then((value) =>
+    setState(() => _isLoading = false));
   }
 
   @override
@@ -84,6 +92,27 @@ class _LoginPageState extends State<LoginPage> {
                         }
                         ),
                         child: const Text('Login'),
+                      ),
+                      const SizedBox(height: 20),
+                      TextButton(
+                        onPressed: _signinWithGoogle,
+                        style: TextButton.styleFrom(
+                          side: const BorderSide(color: Color(0xFF4285F4), width: 2),
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: const Color(0xFF4285F4),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'lib/assets/images/icons8-google-48.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                            const SizedBox(width: 8),
+                            Text('Login or Register with Google', style: MyTextStyle.get(size: 15, color:const  Color(0xFF4285F4))),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
