@@ -10,10 +10,10 @@ TODO LIST:
 - [ ] Aggiungere i test (Ale)
 - [x] Password Forgotten page (Andrea)
 - [x] Fix della pagina degli amici (Andrea)
-- [ ] Fix font achivement (Andrea)
-- [ ] Fix Achievements color (Andrea)
-- [ ] Fix Session (Google) (Andrea)
-- [ ] Fix Devices (Andrea)
+- [x] Fix font achivement (Andrea)
+- [x] Fix Achievements color (Andrea)
+- [x] Fix Session (Google) (Andrea)
+- [ ] Test Devices (Andrea)
 - [ ] Scrivere la mail per il prof (Andrea) 
 
 SE ABBIAMO TEMPO:

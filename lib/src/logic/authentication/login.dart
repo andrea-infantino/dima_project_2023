@@ -26,12 +26,12 @@ class LoginLogic {
                 context,
                 MaterialPageRoute(builder: (context) => const PagesManager()),
               ));
-    } on FirebaseAuthException catch (error){
-      _invalidCredentials(context, error);
+    } on FirebaseAuthException {
+      _invalidCredentials(context);
     }
   }
 
-  static void _invalidCredentials(BuildContext context, FirebaseAuthException error) {
+  static void _invalidCredentials(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => const OkDialog(
@@ -40,11 +40,23 @@ class LoginLogic {
 
   static Future<List<String>?> checkLoginStatus() async {
     prefs = await SharedPreferences.getInstance();
+
     String? savedEmail = prefs.getString('email');
     String? savedPassword = prefs.getString('password');
 
+    String? savedAccessToken = prefs.getString('accessToken');
+    String? savedIdToken = prefs.getString('idToken');
+
     if (savedEmail != null && savedPassword != null) {      
-      return List<String>.from(<String>[savedEmail, savedPassword]);
+      prefs.remove('accessToken');
+      prefs.remove('idToken');
+      return List<String>.from(<String>['email', savedEmail, savedPassword]);
+    }
+
+    if (savedAccessToken != null && savedIdToken != null) {      
+      prefs.remove('email');
+      prefs.remove('password');
+      return List<String>.from(<String>['google', savedAccessToken, savedIdToken]);
     }
 
     return null;
@@ -55,9 +67,23 @@ class LoginLogic {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser != null) {
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+      signInWithTokens(context, googleAuth.accessToken!, googleAuth.idToken!);
+    } else {
+      _googleSignInFailed(context);
+    }
+  }
+
+  static void _googleSignInFailed(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => const OkDialog(
+            title: 'Google Sign-in Failed', content: 'An unexpected error occured'));
+  }
+
+  static Future<void> signInWithTokens(BuildContext context, String accessToken, String idToken) async {
+    final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: accessToken,
+        idToken: idToken,
       );
 
       try {
@@ -67,8 +93,8 @@ class LoginLogic {
         if (user != null) {
           print('email ${user.email} uid ${user.uid}');
           Session.instance.setUser(user.email!, user.uid);
-          prefs.setString('email', user.email!);
-          prefs.setString('password', ''); // Password is not available for Google sign-in
+          prefs.setString('accessToken', accessToken);
+          prefs.setString('idToken', idToken); 
 
           Achievements.init();
 
@@ -77,11 +103,8 @@ class LoginLogic {
             MaterialPageRoute(builder: (context) => const PagesManager()),
           );
         }
-      } on FirebaseAuthException catch (error) {
-        _invalidCredentials(context, error);
+      } on FirebaseAuthException {
+        _googleSignInFailed(context);
       }
-    } else {
-      print("Google Sign-In failed");
-    }
   }
 }

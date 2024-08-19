@@ -25,6 +25,8 @@ class HomeLogic {
 
     LoginLogic.prefs.remove('email');
     LoginLogic.prefs.remove('password');
+    LoginLogic.prefs.remove('accessToken');
+    LoginLogic.prefs.remove('idToken');
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const LoginPage()),

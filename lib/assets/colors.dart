@@ -5,6 +5,7 @@ const Color LIGHT_WATER_GREEN = Color.fromARGB(80, 49, 196, 141);
 const Color LIGHT_YELLOW = Color.fromARGB(100, 255, 255, 0);
 const Color ORANGE = Color.fromARGB(255, 255, 153, 0);
 const Color GREY = Color.fromARGB(128, 158, 158, 158);
+const Color DARK_GREY = Color.fromARGB(128, 66, 66, 66);
 const Color WHITE = Color.fromARGB(255, 255, 255, 255);
 const Color RED = Color.fromARGB(255, 255, 0, 0);
 const Color BLACK = Color.fromARGB(255, 0, 0, 0);

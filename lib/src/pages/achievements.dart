@@ -37,7 +37,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                   children: [
                     Text('Achievements:',
                         style: MyTextStyle.get(
-                          size: 50,
+                          size: 45,
                           color: WATER_GREEN,
                           bold: true,
                           italic: true,
@@ -61,9 +61,9 @@ class _AchievementsPageState extends State<AchievementsPage> {
 
     late Color backgroundColor;
     if (index % 2 == 0) {
-      backgroundColor = LIGHT_WATER_GREEN;
+      backgroundColor = achievement.completed ? GREY : LIGHT_WATER_GREEN;
     } else {
-      backgroundColor = WATER_GREEN;
+      backgroundColor = achievement.completed ? DARK_GREY : WATER_GREEN;
     }
 
     return AchievementTile(

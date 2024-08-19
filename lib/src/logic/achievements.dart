@@ -3,11 +3,13 @@ import 'package:dima_project_2023/src/db_snapshot.dart';
 class Achievement {
   late String _description;
   late int _currValue, _maxValue;
+  late bool completed;
 
   Achievement._internal(String description, int maxValue, int currValue) {
     _description = description;
     _maxValue = maxValue;
     _currValue = currValue;
+    completed = false;
   }
 
   get description => _description;
@@ -63,6 +65,10 @@ class Achievements {
         default:
           break;
       }
+    }
+
+    for (Achievement a in _completed) {
+      a.completed = true;
     }
   }
 

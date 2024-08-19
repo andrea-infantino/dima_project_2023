@@ -28,9 +28,16 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _init() async {
     List<String>? savedCredentials = await LoginLogic.checkLoginStatus();
     if(savedCredentials != null) {
-      setState(() => _isLoading = true);
-      LoginLogic.login(context, savedCredentials.first, savedCredentials.last).then((value) => 
-      setState(() => _isLoading = false));
+      if (savedCredentials.elementAt(0) == 'email') {
+        setState(() => _isLoading = true);
+        LoginLogic.login(context, savedCredentials.elementAt(1), savedCredentials.elementAt(2)).then((value) => 
+        setState(() => _isLoading = false));
+      }
+      else if (savedCredentials.elementAt(0) == 'google') {
+        setState(() => _isLoading = true);
+        await LoginLogic.signInWithTokens(context, savedCredentials.elementAt(1), savedCredentials.elementAt(2)).then((value) =>
+        setState(() => _isLoading = false));
+      }
     }
   }
 
