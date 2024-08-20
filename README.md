@@ -14,7 +14,7 @@ TODO LIST:
 - [x] Fix Achievements color (Andrea)
 - [x] Fix Session (Google) (Andrea)
 - [ ] Test Devices (Andrea)
-- [ ] Scrivere la mail per il prof (Andrea) 
+- [x] Scrivere la mail per il prof (Andrea) 
 
 SE ABBIAMO TEMPO:
 
