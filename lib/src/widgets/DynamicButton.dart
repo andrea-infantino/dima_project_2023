@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:dima_project_2023/src/logic/authentication/link_google.dart';
 import 'package:dima_project_2023/src/widgets/text.dart';
 
+// ignore: constant_identifier_names
 const Color GOOGLE_BLUE = Color(0xFF4285F4);
 
 class MyDynamicButton extends StatefulWidget {
+  const MyDynamicButton({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _MyDynamicButtonState createState() => _MyDynamicButtonState();
 }
 

@@ -5,7 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 
 class DBsnapshot {
   static late DBsnapshot _dbsnapshot;
-
   ValueNotifier<Map<String, List<String>>> social =
       ValueNotifier({"friends": [], "requests": []});
   ValueNotifier<List<int>> achievements = ValueNotifier([]);
@@ -20,7 +19,10 @@ class DBsnapshot {
   static void init() {
     _dbsnapshot = DBsnapshot._internal();
   }
-
+  
+  static set instance(DBsnapshot dbsnapshot) {
+    _dbsnapshot = dbsnapshot;
+  }
   DBsnapshot._internal();
 
   static DBsnapshot get instance => _dbsnapshot;
