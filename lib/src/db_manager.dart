@@ -4,8 +4,16 @@ import 'logic/achievements.dart';
 import 'session_manager.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+bool test_b = false;
 late DatabaseReference myRef, usersRef;
+
+set testMode(bool value) {
+  test_b = value;
+}
 Future<void> initDB() async {
+  if(test_b){
+    return;
+  }
   String uid = Session.instance.uid;
   usersRef = FirebaseDatabase.instance.ref("users/");
   myRef = usersRef.child(uid);
@@ -55,6 +63,9 @@ Future<void> initDB() async {
 }
 
 Future<String> getEmailOf(String uid) async {
+  if(test_b) {
+    return "email";
+  }
   var snapshot = await usersRef.child("$uid/email").get();
   return snapshot.value as String;
 }
@@ -62,7 +73,11 @@ Future<String> getEmailOf(String uid) async {
 void updateMyScore(int score) async {
   if(score <= 0) return;
   String uid = Session.instance.uid;
+  if (test_b){
+    return;
+  }
   var snapshot = await usersRef.child('$uid/score').get();
+  
   int currentScore = snapshot.value as int;
   int newScore = currentScore + score;
   usersRef.child('$uid/score').set(newScore);
@@ -70,11 +85,17 @@ void updateMyScore(int score) async {
 }
 
 Future<int> getScoreOf(String uid) async {
+  if(test_b){
+    return 500;
+  }
   var snapshot = await usersRef.child("$uid/score").get();
   return snapshot.value as int;
 }
 
 Future<List<String>> getFriendsOf(String uid) async {
+  if(test_b){
+    return ["friends1", "friends2"];
+  }
   DataSnapshot snapshot = await usersRef.child("$uid/friends").get();
   List<String> myFriends = [];
   List<dynamic>? values = snapshot.value as List<dynamic>?;
@@ -90,6 +111,9 @@ Future<List<String>> getFriendsOf(String uid) async {
 }
 
 void setFriendsOf(String uid, List<String> friends) async {
+  if(test_b){
+    return;
+  }
   usersRef.child("$uid/friends").set(friends);
   usersRef.child("$uid/achievements/1").set(friends.length);
   usersRef.child("$uid/achievements/2").set(friends.length);
@@ -97,6 +121,9 @@ void setFriendsOf(String uid, List<String> friends) async {
 }
 
 Future<List<String>> getRequestsOf(String uid) async {
+  if(test_b){
+    return ["request1", "request2"];
+  }
   DataSnapshot snapshot = await usersRef.child("$uid/requests").get();
   List<String> myRequests = [];
   List<dynamic>? values = snapshot.value as List<dynamic>?;
@@ -113,10 +140,16 @@ Future<List<String>> getRequestsOf(String uid) async {
 }
 
 void setRequestsOf(String uid, List<String> requests) async {
+  if(test_b){
+    return;
+  }
   usersRef.child("$uid/requests").set(requests);
 }
 
 Future<List<int>> getAchievements(String uid) async {
+  if(test_b){
+    return [1, 2, 3];
+  }
   DataSnapshot snapshot = await usersRef.child("$uid/achievements").get();
   List<int> achievements = [];
   List<dynamic>? values = snapshot.value as List<dynamic>?;
@@ -132,6 +165,9 @@ Future<List<int>> getAchievements(String uid) async {
 }
 
 Future<List<String>> getUsers() async {
+  if(test_b){
+    return ["user1", "user2"];
+  }
   DataSnapshot dataSnapshot = await usersRef.get();
   List<String> users = [];
   for (var snapshot in dataSnapshot.children) {
@@ -141,21 +177,33 @@ Future<List<String>> getUsers() async {
 }
 
 Future<void> updateMySteps(steps) async {
+  if(test_b){
+    return;
+  }
   String uid = Session.instance.uid; 
   usersRef.child('$uid/steps').set(steps);
 }
 
 Future<void> updateMySleep(sleep) async {
+  if(test_b){
+    return;
+  }
   String uid = Session.instance.uid;
   usersRef.child('$uid/sleep').set(sleep);
 }
 
 Future<void> updateMyWater(water) async {
+  if(test_b){
+    return;
+  }
   String uid = Session.instance.uid;
   usersRef.child('$uid/water').set(water);
 }
 
 Future<void> updateDailyScores() async {
+  if(test_b){
+    return;
+  }
   String uid = Session.instance.uid;
 
   var sleepSnapshot = await usersRef.child("$uid/sleep").get();
