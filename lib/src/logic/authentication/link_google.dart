@@ -39,6 +39,10 @@ unlinkGoogle() async
   }
 bool isConnected()
   {
+    if (FirebaseAuth.instance.currentUser == null) {
+      print('No user is currently signed in.');
+      return false;
+    }
     User existingUser = FirebaseAuth.instance.currentUser!;
     for (UserInfo userInfo in existingUser.providerData) {
       if (userInfo.providerId == 'google.com') {

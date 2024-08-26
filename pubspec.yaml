@@ -44,10 +44,12 @@ dependencies:
   google_sign_in: ^6.2.1
   health: ^8.1.0
   shared_preferences: ^2.0.15
+  fake_cloud_firestore: ^2.4.8
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.0.16
+  coverage: ^1.8.0
   firebase_core_platform_interface: ^5.0.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
