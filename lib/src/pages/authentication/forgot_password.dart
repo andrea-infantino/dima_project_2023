@@ -1,4 +1,5 @@
 import 'package:dima_project_2023/main.dart';
+import 'package:dima_project_2023/src/pages/authentication/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,7 +17,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     try {
       await _auth.sendPasswordResetEmail(email: _emailController.text.trim());
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Password reset email sent')),
+        SnackBar(
+          content: Text('Password reset email sent'),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            }
+          ),
+        ),
       );
     } on FirebaseAuthException catch (e) {
       setState(() {
