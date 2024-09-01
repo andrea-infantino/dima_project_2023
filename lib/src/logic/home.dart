@@ -33,12 +33,14 @@ class HomeLogic {
     );
   }
 
-  Future<void> loadHealthData() async {
-    await Permission.activityRecognition.request();
-    await Permission.location.request();
+Future<void> loadHealthData() async {
+  // Request necessary permissions
+  var activityRecognitionStatus = await Permission.activityRecognition.request();
+  var locationStatus = await Permission.location.request();
+  
+  if (activityRecognitionStatus.isGranted && locationStatus.isGranted) {
+    await linkEmailGoogle();
 
-    linkEmailGoogle();
-    
     HealthFactory health = HealthFactory();
     var types = [HealthDataType.WATER, HealthDataType.SLEEP_ASLEEP, HealthDataType.STEPS];
     var permissions = [HealthDataAccess.READ, HealthDataAccess.READ, HealthDataAccess.READ];
@@ -46,11 +48,13 @@ class HomeLogic {
     var midnight = DateTime(now.year, now.month, now.day);
 
     bool? hasPermissions = await health.hasPermissions(types, permissions: permissions);
-    hasPermissions = false;
+    print('hasPermissions: $hasPermissions');
 
-    if (!hasPermissions) {
+    if (hasPermissions == null || !hasPermissions) {
       bool? authorized = await health.requestAuthorization(types);
-      if (authorized) {
+      print('authorized: $authorized');
+
+      if (authorized == true) {
         // Call the method immediately
         await fetchAndUpdateHealthData(health, midnight, now, types);
 
@@ -59,9 +63,23 @@ class HomeLogic {
           now = DateTime.now();
           await fetchAndUpdateHealthData(health, midnight, now, types);
         });
+      } else {
+        print('Authorization not granted');
       }
+    } else {
+      // Permissions are already granted, fetch data immediately
+      await fetchAndUpdateHealthData(health, midnight, now, types);
+
+      // Start the timer loop
+      _healthDataTimer = Timer.periodic(Duration(seconds: 10), (timer) async {
+        now = DateTime.now();
+        await fetchAndUpdateHealthData(health, midnight, now, types);
+      });
     }
+  } else {
+    print('Required permissions not granted');
   }
+}
 
   Future<void> fetchAndUpdateHealthData(HealthFactory health, DateTime midnight, DateTime now, List<HealthDataType> types) async {
     int? steps = 0;
