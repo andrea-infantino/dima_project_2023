@@ -12,7 +12,7 @@ class LoginLogic {
   static late SharedPreferences prefs;
 
   static Future<void> login(
-      BuildContext context, String email, String password) async {
+      BuildContext context, String email, String password, bool automaticAttempt) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
@@ -27,7 +27,9 @@ class LoginLogic {
                 MaterialPageRoute(builder: (context) => const PagesManager()),
               ));
     } on FirebaseAuthException {
-      _invalidCredentials(context);
+      if (!automaticAttempt) {
+        _invalidCredentials(context);
+      }
     }
   }
 
@@ -62,14 +64,16 @@ class LoginLogic {
     return null;
   }
 
-  static Future<void> signInWithGoogle(BuildContext context) async {
+  static Future<void> signInWithGoogle(BuildContext context, bool automaticAttempt) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser != null) {
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      signInWithTokens(context, googleAuth.accessToken!, googleAuth.idToken!);
+      signInWithTokens(context, googleAuth.accessToken!, googleAuth.idToken!, automaticAttempt);
     } else {
-      _googleSignInFailed(context);
+      if (!automaticAttempt) {
+        _googleSignInFailed(context);
+      }
     }
   }
 
@@ -80,7 +84,7 @@ class LoginLogic {
             title: 'Google Sign-in Failed', content: 'An unexpected error occured'));
   }
 
-  static Future<void> signInWithTokens(BuildContext context, String accessToken, String idToken) async {
+  static Future<void> signInWithTokens(BuildContext context, String accessToken, String idToken, bool automaticAttempt) async {
     final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: accessToken,
         idToken: idToken,
@@ -104,7 +108,9 @@ class LoginLogic {
           );
         }
       } on FirebaseAuthException {
+        if (!automaticAttempt) {
         _googleSignInFailed(context);
+      }
       }
   }
 }

@@ -30,12 +30,12 @@ class _LoginPageState extends State<LoginPage> {
     if(savedCredentials != null) {
       if (savedCredentials.elementAt(0) == 'email') {
         setState(() => _isLoading = true);
-        LoginLogic.login(context, savedCredentials.elementAt(1), savedCredentials.elementAt(2)).then((value) => 
+        LoginLogic.login(context, savedCredentials.elementAt(1), savedCredentials.elementAt(2), true).then((value) => 
         setState(() => _isLoading = false));
       }
       else if (savedCredentials.elementAt(0) == 'google') {
         setState(() => _isLoading = true);
-        await LoginLogic.signInWithTokens(context, savedCredentials.elementAt(1), savedCredentials.elementAt(2)).then((value) =>
+        await LoginLogic.signInWithTokens(context, savedCredentials.elementAt(1), savedCredentials.elementAt(2), true).then((value) =>
         setState(() => _isLoading = false));
       }
     }
@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _signinWithGoogle() async{
     setState(() => _isLoading = true);
-    await LoginLogic.signInWithGoogle(context).then((value) =>
+    await LoginLogic.signInWithGoogle(context, false).then((value) =>
     setState(() => _isLoading = false));
   }
 
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                       ElevatedButton(
                         onPressed: (() {
                           setState(() => _isLoading = true);
-                          LoginLogic.login(context, _emailController.text, _passwordController.text).then((value) => 
+                          LoginLogic.login(context, _emailController.text, _passwordController.text, false).then((value) => 
                           setState(() => _isLoading = false));
                         }
                         ),
