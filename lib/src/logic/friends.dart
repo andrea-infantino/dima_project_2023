@@ -5,12 +5,11 @@ import '../session_manager.dart';
 class FriendsLogic {
   static Future<void> addFriend(String email) async {
     DBsnapshot.instance.social.value["friends"]!.add(email);
-    DBsnapshot.instance.social.notifyListeners();
-    DBsnapshot.instance.global.notifyListeners();
     friendsSetFriendsOf(
         Session.instance.uid, DBsnapshot.instance.social.value["friends"]!);
     deleteRequest(email);
-
+    DBsnapshot.instance.social.notifyListeners();
+    DBsnapshot.instance.global.notifyListeners();
     String myEmail = Session.instance.email;
     List<String> users = List.from(await friendsGetUsers());
     for (var uid in users) {
@@ -50,8 +49,6 @@ class FriendsLogic {
   
   static Future<void> deleteRequest(String email) async {
     DBsnapshot.instance.social.value["requests"]!.remove(email);
-    DBsnapshot.instance.social.notifyListeners();
-    DBsnapshot.instance.global.notifyListeners();
     String uid = Session.instance.uid;
     friendsSetRequestOf(uid, DBsnapshot.instance.social.value["requests"]!);
   }
