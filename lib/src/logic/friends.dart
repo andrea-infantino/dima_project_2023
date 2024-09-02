@@ -7,8 +7,9 @@ class FriendsLogic {
     DBsnapshot.instance.social.value["friends"]!.add(email);
     friendsSetFriendsOf(
         Session.instance.uid, DBsnapshot.instance.social.value["friends"]!);
-    deleteRequest(email);
-    DBsnapshot.instance.global.notifyListeners();
+    deleteRequest(email).then((value) {
+      DBsnapshot.instance.global.notifyListeners();
+    });
     String myEmail = Session.instance.email;
     List<String> users = List.from(await friendsGetUsers());
     for (var uid in users) {
