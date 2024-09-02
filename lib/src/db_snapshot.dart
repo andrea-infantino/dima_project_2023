@@ -41,6 +41,7 @@ class DBsnapshot {
           friendsFound = true;
           social.value["friends"] = List.from(newData[key]);
           social.notifyListeners();
+          global.notifyListeners();
         } else if (key == "requests") {
           requestsFound = true;
           social.value["requests"] = List.from(newData[key]);
