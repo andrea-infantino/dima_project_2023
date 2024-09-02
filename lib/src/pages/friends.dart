@@ -136,20 +136,20 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Widget _buildFriendListTile(BuildContext context, index) {
-    var friend = DBsnapshot.instance.social.value["friends"]![index].split('@')[0];
+    var friend = DBsnapshot.instance.social.value["friends"]![index];
 
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 7, bottom: 8),
-        child: Text(friend, style: MyTextStyle.get(size: 20)));
+        child: Text(friend.split('@')[0], style: MyTextStyle.get(size: 20)));
   }
 
   Widget _buildRequestListTile(BuildContext context, index) {
-    var request = DBsnapshot.instance.social.value["requests"]![index].split('@')[0];
+    var request = DBsnapshot.instance.social.value["requests"]![index];
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(request, style: MyTextStyle.get(size: 20)),
+        Text(request.split('@')[0], style: MyTextStyle.get(size: 20)),
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           IconButton(
             onPressed: (() {
