@@ -4,10 +4,10 @@ import '../session_manager.dart';
 
 class FriendsLogic {
   static Future<void> addFriend(String email) async {
+    deleteRequest(email);
     DBsnapshot.instance.social.value["friends"]!.add(email);
     friendsSetFriendsOf(
         Session.instance.uid, DBsnapshot.instance.social.value["friends"]!);
-    deleteRequest(email);
     String myEmail = Session.instance.email;
     List<String> users = List.from(await friendsGetUsers());
     for (var uid in users) {
