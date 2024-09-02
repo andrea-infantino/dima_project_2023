@@ -16,7 +16,7 @@ class FriendsLogic {
       if (currEmail.toLowerCase() == email.toLowerCase()) {
         List<String> currFriends = await friendsGetFriendsOf(uid);
         currFriends.add(myEmail);
-        friendsSetRequestOf(uid, currFriends);
+        friendsSetFriendsOf(uid, currFriends);
         return;
       }
     }
