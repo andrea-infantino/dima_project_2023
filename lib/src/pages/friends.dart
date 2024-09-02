@@ -136,7 +136,7 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Widget _buildFriendListTile(BuildContext context, index) {
-    var friend = DBsnapshot.instance.social.value["friends"]![index];
+    var friend = DBsnapshot.instance.social.value["friends"]![index].split('@')[0];
 
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 7, bottom: 8),
@@ -144,7 +144,7 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Widget _buildRequestListTile(BuildContext context, index) {
-    var request = DBsnapshot.instance.social.value["requests"]![index];
+    var request = DBsnapshot.instance.social.value["requests"]![index].split('@')[0];
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),

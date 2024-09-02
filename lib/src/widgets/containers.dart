@@ -108,7 +108,7 @@ class LeaderboardTile extends StatelessWidget {
                       Text('$position°:',
                           style: MyTextStyle.get(size: 15, color: color)),
                       Container(width: 15),
-                      Text(username, style: MyTextStyle.get(size: 15))
+                      Text(username.split('@')[0], style: MyTextStyle.get(size: 15))
                     ],
                   ),
                   Text('$score Beats', style: MyTextStyle.get(size: 15))
