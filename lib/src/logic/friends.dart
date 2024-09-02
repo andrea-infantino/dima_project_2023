@@ -49,6 +49,7 @@ class FriendsLogic {
   
   static Future<void> deleteRequest(String email) async {
     DBsnapshot.instance.social.value["requests"]!.remove(email);
+    DBsnapshot.instance.social.notifyListeners();
     String uid = Session.instance.uid;
     friendsSetRequestOf(uid, DBsnapshot.instance.social.value["requests"]!);
   }
